@@ -19,8 +19,9 @@ export type OnPaginationChangeProps =
     });
 
 export type OnSortingChangeProps =
-  | SortType[]
-  | ((sort: SortType[]) => SortType[]);
+  | SortType
+  | ((sort: SortType) => SortType)
+  | null;
 
 export type DataTableRows<T> = {
   id: string;
@@ -44,9 +45,9 @@ export type DataTableProps<T> = {
     pageSize?: number;
     pageIndex?: number;
   };
-  sortState?: SortType[];
+  sortState?: SortType;
   onPaginationChange?: (pageSize: number, pageIndex: number) => void;
-  onSortingChange?: (sort: SortType[]) => void;
+  onSortingChange?: (sort: SortType | null) => void;
   onToggleVisibilityChange?: (params: { [key: string]: boolean }) => void;
 };
 
@@ -58,7 +59,7 @@ export type DataTable<T> = {
   rows: DataTableRows<T>[];
   columns: DataTableColumnFinal<T>[];
   pagination: DataTablePagination;
-  sort?: SortType[];
+  sort?: SortType;
   onPaginationChange: (params: OnPaginationChangeProps) => void;
   getCanPreviousPage: () => boolean;
   getCanNextPage: () => boolean;
@@ -76,7 +77,10 @@ export const useDataTable = <T,>(props: DataTableProps<T>): DataTable<T> => {
     pageSize: props.paginationState?.pageSize ?? rowCount,
     pageIndex: props.paginationState?.pageIndex ?? 1,
   };
-  const sortState = props.sortState || [];
+  const sortState = props.sortState || {
+    orderBy: "createdAt",
+    order: "desc",
+  };
 
   const newColumns: DataTableColumnFinal<T>[] = columns.map((item) => {
     const findVisibility = props.columnVisibility?.[item.key as string] ?? true;

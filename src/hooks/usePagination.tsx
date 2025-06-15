@@ -1,17 +1,18 @@
 import { type LinkProps, useNavigate } from "@tanstack/react-router";
 import type { PaginationState } from "@tanstack/react-table";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type UsePaginationProps = {
   initialPageSize?: number;
   initialPageIndex?: number;
   onChange?: (data: PaginationState) => void;
   routeFrom: LinkProps["from"];
+  clientSide?: boolean;
 };
 
 const usePagination = (props: UsePaginationProps) => {
   const initialPageIndex = props.initialPageIndex ? props.initialPageIndex : 0;
-  const initialPageSize = props.initialPageSize ?? 10;
+  const initialPageSize = props.initialPageSize ?? 20;
 
   const onChange = props.onChange;
 

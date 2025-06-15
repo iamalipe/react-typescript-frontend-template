@@ -3,6 +3,7 @@ import axios from "axios";
 
 // import all api
 import { authAPI } from "./auth-api";
+import { productAPI } from "./product-api";
 import { projectAPI } from "./project-api";
 
 // Axios instance configuration
@@ -16,6 +17,7 @@ export const axiosInstance = axios.create({
 const api = {
   auth: authAPI(axiosInstance),
   project: projectAPI(axiosInstance),
+  product: productAPI(axiosInstance),
 };
 
 export type ApiType = typeof api;

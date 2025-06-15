@@ -4,7 +4,7 @@ import { mongoIdRegex } from "./utils";
 export const paginationZodSchema = z
   .object({
     page: z.number().min(0).optional().default(1),
-    limit: z.number().min(1).max(100).optional().default(10),
+    limit: z.number().min(1).max(100).optional().default(20),
   })
   .transform((data) => {
     // Remove default values to return undefined for them
@@ -55,9 +55,10 @@ export type sortArrayZodSchemaType = {
 
 export const getAllZodSchema = z
   .object({
-    page: z.number().min(0).optional().default(1),
-    limit: z.number().min(1).max(100).optional().default(10),
-    sort: sortArrayZodSchema,
+    page: z.number().min(0).optional(),
+    limit: z.number().min(1).optional(),
+    orderBy: z.string().optional(),
+    order: z.enum(["asc", "desc"]).optional(),
     mode: z.enum(["CREATE", "UPDATE", "VIEW"]).optional(),
   })
   .transform((data) => {
@@ -65,18 +66,22 @@ export const getAllZodSchema = z
     const result: {
       page?: number;
       limit?: number;
-      sort?: sortArrayZodSchemaType;
+      orderBy?: string;
+      order?: "asc" | "desc";
       mode?: "CREATE" | "UPDATE" | "VIEW";
     } = {};
 
-    if (data.page !== 1) {
+    if (data.page && data.page > 1) {
       result.page = data.page;
     }
-    if (Array.isArray(data.sort) && data.sort.length > 0) {
-      result.sort = data.sort as sortArrayZodSchemaType;
-    }
-    if (data.limit !== 10) {
+    if (data.limit && data.limit !== 20) {
       result.limit = data.limit;
+    }
+    if (data.orderBy && data.orderBy !== "createdAt") {
+      result.orderBy = data.orderBy;
+      if (data.order && data.order !== "desc") {
+        result.order = data.order;
+      }
     }
     if (data.mode) {
       result.mode = data.mode;

@@ -9,7 +9,7 @@ import PageBreadcrumb from "@/components/general/page-breadcrumb";
 // import { useTableVisibility } from "@/store/use-table-columns-visibility-store";
 import { getRouteApi } from "@tanstack/react-router";
 
-const routeApi = getRouteApi("/_private/project");
+const routeApi = getRouteApi("/_private/product");
 const Artist = () => {
   const routeData = routeApi.useLoaderData();
   console.log("routeData", routeData);

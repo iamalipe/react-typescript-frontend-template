@@ -13,25 +13,36 @@ export type ApiPaginationReturn = {
 export type ApiErrorResponse = {
   success?: boolean;
   message?: string;
+  data?: null;
   timestamp?: string;
   errors?: ApiValidationError[];
 };
 
 export type ApiGetAllResponse<T> = {
   success: boolean;
-  sort: ApiSortReturn;
-  pagination: ApiPaginationReturn;
   data: T[];
+  total: number;
+  orderBy: string;
+  order: "asc" | "desc";
+  page: number;
+  limit: number;
+  errors: ApiValidationError[];
+  timestamp: string;
+  message: string;
 };
 
 export type ApiNormalResponse<T> = {
   success: boolean;
-  data: T;
+  errors: ApiValidationError[];
+  data: T | null;
+  timestamp: string;
+  message: string;
 };
 
 export type ApiQueryParams = {
   page?: number; // Optional page number
   limit?: number; // Optional limit per page
-  sort?: ApiSortReturn;
+  orderBy?: string; // Optional
+  order?: "asc" | "desc"; // Optional
   [key: string]: unknown; // Additional key-value pairs
 };

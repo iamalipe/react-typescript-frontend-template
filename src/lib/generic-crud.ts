@@ -1,12 +1,12 @@
 // generic-crud.ts
 
-import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
 import type {
   ApiErrorResponse,
   ApiGetAllResponse,
   ApiNormalResponse,
   ApiQueryParams,
 } from "@/types/generic-type";
+import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
 import { qString } from "./utils";
 
 export const genericCRUD = <T, U = T>(

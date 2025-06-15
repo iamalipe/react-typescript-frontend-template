@@ -1,3 +1,4 @@
+import { DataTable } from "@/hooks/useDataTable";
 import {
   Select,
   SelectContent,
@@ -5,7 +6,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { DataTable } from "@/hooks/useDataTable";
 
 export type TableLimitProps<T> = {
   dataTable: DataTable<T>;
@@ -13,7 +13,7 @@ export type TableLimitProps<T> = {
 };
 const TableLimit = <T,>(props: TableLimitProps<T>) => {
   const { dataTable } = props;
-  const limits = props.limits || [10, 25, 50, 100];
+  const limits = props.limits || [20, 50, 100];
 
   const pageSize = dataTable.pagination.pageSize;
 

@@ -17,8 +17,8 @@ export function AppSidebar() {
       icon: Home,
     },
     {
-      title: "Project",
-      url: "/project",
+      title: "Product",
+      url: "/product",
       icon: User,
     },
   ];

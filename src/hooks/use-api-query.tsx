@@ -25,11 +25,13 @@ export const queryClient = new QueryClient({
 
 // Import query modules after exporting queryClient
 import { authQuery } from "./api-query/auth-query";
+import { productQuery } from "./api-query/product-query";
 import { projectQuery } from "./api-query/project-query";
 
 const apiQuery = {
   auth: authQuery(queryClient),
   project: projectQuery(queryClient),
+  product: productQuery(queryClient),
 };
 
 export type ApiQuery = typeof apiQuery;

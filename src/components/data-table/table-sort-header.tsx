@@ -1,5 +1,8 @@
 import { ArrowDown, ArrowUp, ChevronsUpDown, EyeOff } from "lucide-react";
 
+import { DataTable, DataTableColumnFinal } from "@/hooks/useDataTable";
+import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,9 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
-import { DataTable, DataTableColumnFinal } from "@/hooks/useDataTable";
 import { TableHead } from "../ui/table";
 
 export type TableSortHeaderProps<T> = {
@@ -20,11 +20,7 @@ export type TableSortHeaderProps<T> = {
 const TableSortHeader = <T,>(props: TableSortHeaderProps<T>) => {
   const { dataTable, item } = props;
 
-  const findSortIndex =
-    dataTable.sort?.findIndex((sort) => sort.orderBy === item.key) ?? -1;
-
-  const ordered =
-    findSortIndex !== -1 ? dataTable.sort?.[findSortIndex].order : undefined;
+  const ordered = dataTable.sort?.orderBy === item.key && dataTable.sort?.order;
 
   return (
     <TableHead key={item.id}>
@@ -52,13 +48,11 @@ const TableSortHeader = <T,>(props: TableSortHeaderProps<T>) => {
               className={cn({ "text-primary": ordered === "asc" })}
               onClick={() =>
                 ordered === "asc"
-                  ? dataTable.onSortingChange?.([])
-                  : dataTable.onSortingChange?.([
-                      {
-                        orderBy: item.key as string,
-                        order: "asc",
-                      },
-                    ])
+                  ? dataTable.onSortingChange?.(null)
+                  : dataTable.onSortingChange?.({
+                      orderBy: item.key as string,
+                      order: "asc",
+                    })
               }
             >
               <ArrowUp
@@ -73,13 +67,11 @@ const TableSortHeader = <T,>(props: TableSortHeaderProps<T>) => {
               className={cn({ "text-primary": ordered === "desc" })}
               onClick={() =>
                 ordered === "desc"
-                  ? dataTable.onSortingChange?.([])
-                  : dataTable.onSortingChange?.([
-                      {
-                        orderBy: item.key as string,
-                        order: "desc",
-                      },
-                    ])
+                  ? dataTable.onSortingChange?.(null)
+                  : dataTable.onSortingChange?.({
+                      orderBy: item.key as string,
+                      order: "desc",
+                    })
               }
             >
               <ArrowDown
