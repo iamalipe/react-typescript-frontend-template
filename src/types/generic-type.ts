@@ -1,5 +1,5 @@
 // generic-type.ts
-export type ApiValidationError = { message: string; path: string };
+export type ApiValidationError = { message?: string; path?: string };
 
 export type ApiSortReturn = { orderBy: string; order: "asc" | "desc" }[];
 
@@ -11,9 +11,10 @@ export type ApiPaginationReturn = {
 };
 
 export type ApiErrorResponse = {
-  success: boolean;
-  message: string;
-  errors: ApiValidationError[];
+  success?: boolean;
+  message?: string;
+  timestamp?: string;
+  errors?: ApiValidationError[];
 };
 
 export type ApiGetAllResponse<T> = {

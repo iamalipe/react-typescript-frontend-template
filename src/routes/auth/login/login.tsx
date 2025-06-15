@@ -13,8 +13,9 @@ import {
 } from "@/components/ui/form";
 import { currentUserQueryKey } from "@/hooks/api-query/auth-query";
 import { queryClient } from "@/hooks/use-api-query";
+import { ApiErrorResponse } from "@/types/generic-type";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -46,9 +47,11 @@ const Login = () => {
   });
 
   const onSubmit = async (data: FormSchemaType) => {
-    const res = await api.auth.login(data);
-    if (res.success) {
-      // await apiQuery.auth.getCurrentUser();
+    try {
+      const res = await api.auth.login(data);
+      if (!res.success) {
+        throw new Error("Login failed");
+      }
       queryClient.invalidateQueries({ queryKey: currentUserQueryKey });
       // If there's a redirect URL, navigate to it, otherwise go to the home page
       if (redirect) {
@@ -63,6 +66,14 @@ const Login = () => {
         navigate({ to: "/" });
       }
       form.reset();
+    } catch (error) {
+      const err = error as ApiErrorResponse;
+      err?.errors?.forEach((er) => {
+        const errorPath = er?.path as keyof FormSchemaType;
+        form.setError(errorPath, { message: er?.message });
+      });
+      if (err?.errors?.length === 0 && err?.message)
+        form.setError("root", { message: err?.message });
     }
   };
 
@@ -73,25 +84,27 @@ const Login = () => {
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center gap-2">
-                <a
-                  href="#"
+                <Link
+                  to="/"
                   className="flex flex-col items-center gap-2 font-medium"
                 >
                   <div className="flex h-8 w-8 items-center justify-center rounded-md">
                     <GalleryVerticalEnd className="size-6" />
                   </div>
-                  <span className="sr-only">Simple Music.</span>
-                </a>
-                <h1 className="text-xl font-bold">Welcome to Simple Music.</h1>
+                  <span className="sr-only">Simple Template.</span>
+                </Link>
+                <h1 className="text-xl font-bold">
+                  Welcome to Simple Template.
+                </h1>
                 <div className="text-center text-sm">
-                  Don&apos;t have an account?{" "}
-                  <a href="#" className="underline underline-offset-4">
+                  Don't have an account?{" "}
+                  <Link to="/register" className="underline underline-offset-4">
                     Sign up
-                  </a>
+                  </Link>
                 </div>
               </div>
 
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-4">
                 <FormField
                   control={form.control}
                   name="email"
