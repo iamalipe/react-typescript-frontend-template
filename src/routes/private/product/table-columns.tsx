@@ -1,7 +1,9 @@
 import type { ProductType } from "@/api/product-api";
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumn } from "@/hooks/useDataTable";
 import { formatDate } from "@/lib/date-time";
+import { useProductDialogFormStore } from "@/store/use-dialog-form";
 
 const tableColumns: DataTableColumn<ProductType>[] = [
   {
@@ -32,7 +34,22 @@ const tableColumns: DataTableColumn<ProductType>[] = [
   {
     label: "Name",
     key: "name",
-    render: (item) => item.name,
+    render: (item) => (
+      <Button
+        variant="link"
+        onClick={() => useProductDialogFormStore.getState().onOpen(item)}
+        className="hover:underline"
+      >
+        {item.name}
+      </Button>
+      // <Link
+      //   to="/product/$id"
+      //   params={{ id: item._id }}
+      //   className="hover:underline"
+      // >
+      //   {item.name}
+      // </Link>
+    ),
     isSortable: true,
   },
   {

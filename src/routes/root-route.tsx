@@ -16,6 +16,7 @@ import authRoute from "@/routes/auth/auth-route";
 import loginRoute from "@/routes/auth/login/login-route";
 import registerRoute from "@/routes/auth/register/register-route";
 import productRoute from "./private/product/product-route";
+import viewProductRoute from "./private/product/view-record/view-record-route";
 
 export const rootRoute = createRootRouteWithContext<{
   apiQuery: ApiQuery;
@@ -28,6 +29,6 @@ export const rootRoute = createRootRouteWithContext<{
 });
 
 export const routeTree = rootRoute.addChildren([
-  privateRoute.addChildren([homeRoute, productRoute]),
+  privateRoute.addChildren([homeRoute, productRoute, viewProductRoute]),
   authRoute.addChildren([loginRoute, registerRoute]),
 ]);

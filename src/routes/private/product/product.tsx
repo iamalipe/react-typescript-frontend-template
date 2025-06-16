@@ -20,7 +20,6 @@ import tableColumns from "./table-columns";
 const routeApi = getRouteApi("/_private/product");
 const Product = () => {
   const routeData = routeApi.useLoaderData();
-  console.log("routeData", routeData);
 
   const tableVisibility = useTableVisibility("product");
 

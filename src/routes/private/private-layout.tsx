@@ -1,8 +1,9 @@
 import { Outlet } from "@tanstack/react-router";
 
-import Header from "@/components/general/header";
-import Footer from "@/components/general/footer";
 import { AppSidebar } from "@/components/app-sidebar/app-sidebar";
+import Footer from "@/components/general/footer";
+import Header from "@/components/general/header";
+import RootDialog from "@/components/root-dialog/root-dialog";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
 const PrivateLayout = () => {
@@ -18,6 +19,7 @@ const PrivateLayout = () => {
         </div>
         <Footer />
       </div>
+      <RootDialog />
     </>
   );
 };

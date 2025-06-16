@@ -2,6 +2,7 @@ import ColumnsViewControls from "@/components/data-table/columns-view-controls";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { DataTable } from "@/hooks/useDataTable";
+import { useProductDialogFormStore } from "@/store/use-dialog-form";
 
 export type ActionControlsProps<T> = {
   dataTable: DataTable<T>;
@@ -9,6 +10,7 @@ export type ActionControlsProps<T> = {
 
 const ActionControls = <T,>(props: ActionControlsProps<T>) => {
   const { dataTable } = props;
+  const onOpenForm = useProductDialogFormStore((state) => state.onOpen);
 
   return (
     <div className="flex flex-none justify-between">
@@ -17,10 +19,7 @@ const ActionControls = <T,>(props: ActionControlsProps<T>) => {
       </div>
       <div className="flex gap-2 md:gap-4">
         {/* <DialogForm /> */}
-        <Button>
-          Add
-          {/* <Link to="/artist/new">Add</Link> */}
-        </Button>
+        <Button onClick={() => onOpenForm(null)}>Add</Button>
         <ColumnsViewControls dataTable={dataTable} />
       </div>
     </div>
