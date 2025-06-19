@@ -2,7 +2,8 @@ import { Socket, io } from "socket.io-client";
 
 import { createContext, useMemo } from "react";
 
-const VITE_API_URL = (import.meta.env.VITE_API_URL as string) || "";
+const VITE_API_SOCKET_URL =
+  (import.meta.env.VITE_API_SOCKET_URL as string) || "";
 
 export type UseSocketProps = {
   socket: Socket | null;
@@ -11,7 +12,7 @@ export type UseSocketProps = {
 const SocketContext = createContext<UseSocketProps | null>(null);
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
-  const socketIo = useMemo(() => io(VITE_API_URL), []);
+  const socketIo = useMemo(() => io(VITE_API_SOCKET_URL), []);
 
   return (
     <SocketContext.Provider
