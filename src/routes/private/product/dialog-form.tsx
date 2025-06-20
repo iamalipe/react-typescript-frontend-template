@@ -2,6 +2,7 @@ import { FormInput } from "@/components/form/form-input";
 import { FormReactSelect } from "@/components/form/form-react-select";
 import { FormSelect } from "@/components/form/form-select";
 import { FormTextarea } from "@/components/form/form-textarea";
+import MySelect from "@/components/form/my-select";
 import { ComboboxSelect } from "@/components/general/combobox-select";
 import { Button } from "@/components/ui/button";
 import {
@@ -63,6 +64,7 @@ const DialogForm = () => {
           }}
           className="grid gap-4 py-4 max-h-[500px] overflow-auto scrollbar-thin"
         >
+          <MySelect />
           <form.Field
             name="name"
             children={(field) => (
@@ -119,6 +121,33 @@ const DialogForm = () => {
             notFoundMessage="No match found"
             placeholder="Select a product"
           />
+          <form.Field
+            name="category"
+            children={(field) => (
+              <FormSelect
+                label="Category"
+                field={field}
+                options={Array.from({ length: 500 }, (_, index) => ({
+                  value: `value-${index + 1}`,
+                  label: `label-${index + 1}`,
+                }))}
+              />
+            )}
+          />
+          <form.Field
+            name="category"
+            children={(field) => (
+              <FormReactSelect
+                label="Category"
+                field={field}
+                options={Array.from({ length: 500 }, (_, index) => ({
+                  value: `value-${index + 1}`,
+                  label: `label-${index + 1}`,
+                }))}
+              />
+            )}
+          />
+          <MySelect />
         </form>
         <DialogFooter>
           <Button variant="outline" onClick={handleClose} type="button">

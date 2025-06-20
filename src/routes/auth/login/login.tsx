@@ -36,8 +36,8 @@ const Login = () => {
   const { redirect } = useSearch({ from: "/_auth/login" }) as LoginSearchParams;
 
   const defaultValues: Partial<FormSchemaType> = {
-    email: "",
-    password: "",
+    email: "abhiseck@yopmail.com",
+    password: "Abcd@1234",
   };
 
   const form = useForm<FormSchemaType>({
