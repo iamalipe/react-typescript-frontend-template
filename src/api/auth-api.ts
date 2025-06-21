@@ -23,6 +23,8 @@ export type RegisterReturn = {
 export type CurrentUser = {
   id: string;
   email: string;
+  fullName: string;
+  connectState?: "ONLINE" | "BUSY" | "OFFLINE";
   createdAt: string;
   updatedAt: string;
 };
