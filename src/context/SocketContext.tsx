@@ -12,7 +12,19 @@ export type UseSocketProps = {
 const SocketContext = createContext<UseSocketProps | null>(null);
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
-  const socketIo = useMemo(() => io(VITE_API_SOCKET_URL), []);
+  const socketIo = useMemo(() => {
+    return io(VITE_API_SOCKET_URL, {
+      withCredentials: true,
+      // extraHeaders: {
+      //   "X-My-Custom-Cookie-Like-Header": "myValue",
+      // },
+      reconnectionAttempts: Infinity, // Keep trying to reconnect indefinitely
+      reconnectionDelay: 1000, // Start with a 1-second delay
+      reconnectionDelayMax: 5000, // Max delay of 5 seconds between attempts
+      timeout: 20000, // Connection timeout
+      autoConnect: true, // Automatically connect on mount
+    });
+  }, []);
 
   return (
     <SocketContext.Provider

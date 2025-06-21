@@ -41,3 +41,10 @@
 .table-header-box-shadow {
   box-shadow: inset 0px -1px 0px hsl(var(--border));
 }
+
+.glass-effect {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  @apply bg-background/25 border border-background/25;
+}

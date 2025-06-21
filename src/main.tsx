@@ -1,15 +1,15 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { NuqsAdapter } from "nuqs/adapters/react";
+import { createRoot } from "react-dom/client";
 
-import "@/style/index.css";
 import "@/style/custom.css";
+import "@/style/index.css";
 
 import { routeTree } from "@/routes/root-route";
-import apiQuery, { queryClient } from "./hooks/use-api-query";
+import { StrictMode } from "react";
 import api from "./api/api";
+import apiQuery, { queryClient } from "./hooks/use-api-query";
 
 const router = createRouter({
   routeTree: routeTree,
