@@ -1,0 +1,53 @@
+import FormSkeleton from "@/components/form/form-skeleton";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  Skeleton,
+} from "@/components/ui";
+
+const DialogSkeleton = () => {
+  return (
+    <>
+      <Dialog open={true}>
+        <DialogContent
+          className="sm:max-w-[90vw] sm:max-h-[90vh] px-2 md:px-4 sm:px-6"
+          aria-live="polite"
+          aria-busy="true"
+        >
+          <DialogHeader>
+            <DialogTitle>
+              <Skeleton className="h-10 w-[50%]" aria-hidden="true" />
+            </DialogTitle>
+            <Skeleton className="h-20 w-[80%]" aria-hidden="true" />
+          </DialogHeader>
+          <div
+            className="grid gap-2 md:gap-4"
+            role="status"
+            aria-label="Loading form content"
+          >
+            <FormSkeleton />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-4">
+              <FormSkeleton />
+              <FormSkeleton />
+            </div>
+            <FormSkeleton />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-4">
+              <FormSkeleton />
+              <FormSkeleton />
+            </div>
+            <FormSkeleton />
+          </div>
+          <DialogFooter>
+            <Skeleton className="h-10 w-40" aria-hidden="true" />
+            <Skeleton className="h-10 w-40" aria-hidden="true" />
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
+
+export default DialogSkeleton;
