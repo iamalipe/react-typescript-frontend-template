@@ -1,12 +1,7 @@
 // generic-crud.ts
 
+import type { ApiNormalResponse } from "@/types/generic-type";
 import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
-import type {
-  ApiErrorResponse,
-  ApiGetAllResponse,
-  ApiNormalResponse,
-  ApiQueryParams,
-} from "@/types/generic-type";
 import { qString } from "./utils";
 
 export const genericCRUD = <T, U = T>(
@@ -14,19 +9,18 @@ export const genericCRUD = <T, U = T>(
   endpoint: string
 ) => ({
   getAll: async (
-    params?: ApiQueryParams,
+    params?: { [key: string]: any },
     config?: AxiosRequestConfig
-  ): Promise<ApiGetAllResponse<T>> => {
+  ): Promise<ApiNormalResponse & { data: T[] }> => {
     try {
       const stringifiedParams = params ? qString(params) : "";
-      const response = await axiosInstance.get<ApiGetAllResponse<T>>(
-        `${endpoint}?${stringifiedParams}`,
-        config
-      );
+      const response = await axiosInstance.get<
+        ApiNormalResponse & { data: T[] }
+      >(`${endpoint}?${stringifiedParams}`, config);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        throw error.response.data as ApiErrorResponse;
+        throw error.response.data as ApiNormalResponse;
       }
       throw error;
     }
@@ -35,16 +29,15 @@ export const genericCRUD = <T, U = T>(
   get: async (
     id: string,
     config?: AxiosRequestConfig
-  ): Promise<ApiNormalResponse<T>> => {
+  ): Promise<ApiNormalResponse & { data: T[] }> => {
     try {
-      const response = await axiosInstance.get<ApiNormalResponse<T>>(
-        `${endpoint}/${id}`,
-        config
-      );
+      const response = await axiosInstance.get<
+        ApiNormalResponse & { data: T[] }
+      >(`${endpoint}/${id}`, config);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        throw error.response.data as ApiErrorResponse;
+        throw error.response.data as ApiNormalResponse;
       }
       throw error;
     }
@@ -53,17 +46,15 @@ export const genericCRUD = <T, U = T>(
   create: async (
     data: U,
     config?: AxiosRequestConfig
-  ): Promise<ApiNormalResponse<T>> => {
+  ): Promise<ApiNormalResponse & { data: T[] }> => {
     try {
-      const response = await axiosInstance.post<ApiNormalResponse<T>>(
-        endpoint,
-        data,
-        config
-      );
+      const response = await axiosInstance.post<
+        ApiNormalResponse & { data: T[] }
+      >(endpoint, data, config);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        throw error.response.data as ApiErrorResponse;
+        throw error.response.data as ApiNormalResponse;
       }
       throw error;
     }
@@ -73,17 +64,15 @@ export const genericCRUD = <T, U = T>(
     id: string,
     data: Partial<U>,
     config?: AxiosRequestConfig
-  ): Promise<ApiNormalResponse<T>> => {
+  ): Promise<ApiNormalResponse & { data: T[] }> => {
     try {
-      const response = await axiosInstance.put<ApiNormalResponse<T>>(
-        `${endpoint}/${id}`,
-        data,
-        config
-      );
+      const response = await axiosInstance.put<
+        ApiNormalResponse & { data: T[] }
+      >(`${endpoint}/${id}`, data, config);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        throw error.response.data as ApiErrorResponse;
+        throw error.response.data as ApiNormalResponse;
       }
       throw error;
     }
@@ -92,16 +81,16 @@ export const genericCRUD = <T, U = T>(
   delete: async (
     id: string,
     config?: AxiosRequestConfig
-  ): Promise<ApiNormalResponse<void>> => {
+  ): Promise<ApiNormalResponse> => {
     try {
-      const response = await axiosInstance.delete<ApiNormalResponse<void>>(
+      const response = await axiosInstance.delete<ApiNormalResponse>(
         `${endpoint}/${id}`,
         config
       );
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        throw error.response.data as ApiErrorResponse;
+        throw error.response.data as ApiNormalResponse;
       }
       throw error;
     }
