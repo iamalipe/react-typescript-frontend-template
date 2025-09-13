@@ -18,6 +18,7 @@ import loginRoute from "@/routes/auth/login/login-route";
 import registerRoute from "@/routes/auth/register/register-route";
 import excelSheetRoute from "./private/excel-sheet/excel-sheet-route";
 import kanbanRoute from "./private/kanban/kanban-route";
+import productRoute from "./private/product/product-route";
 
 export const rootRoute = createRootRouteWithContext<{
   apiQuery: ApiQuery;
@@ -35,6 +36,7 @@ export const routeTree = rootRoute.addChildren([
     copyMeRoute,
     excelSheetRoute,
     kanbanRoute,
+    productRoute,
   ]),
   authRoute.addChildren([loginRoute, registerRoute]),
 ]);

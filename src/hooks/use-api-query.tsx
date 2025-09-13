@@ -27,11 +27,13 @@ export const queryClient = new QueryClient({
 import { authQuery } from "./api-query/auth-query";
 import { copyMeQuery } from "./api-query/copy-me-query";
 import { generalQuery } from "./api-query/general-query";
+import { productQuery } from "./api-query/product-query";
 
 const apiQuery = {
   auth: authQuery(queryClient),
   copyMe: copyMeQuery(queryClient),
   general: generalQuery(queryClient),
+  product: productQuery(queryClient),
 };
 
 export type ApiQuery = typeof apiQuery;

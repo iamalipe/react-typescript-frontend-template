@@ -1,5 +1,5 @@
 import { type LinkProps, useNavigate } from "@tanstack/react-router";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type SortType = {
   orderBy: string;
@@ -33,7 +33,8 @@ const useSort = (props: UseSortProps) => {
     navigate({
       search: (prev) => ({
         ...prev,
-        sort: sorting,
+        order: sorting?.[0]?.order || "",
+        orderBy: sorting?.[0]?.orderBy || "",
       }),
     });
   }, [sorting, onChange, navigate]);

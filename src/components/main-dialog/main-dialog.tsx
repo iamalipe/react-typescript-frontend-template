@@ -1,8 +1,10 @@
 import { validateAndParse } from "@/lib/generic-validation";
-import CopyMeDialog from "@/routes/private/copy-me/dialog/copy-me-dialog";
 import { dialogStateZodSchema } from "@/routes/private/private-route";
 import { useSearch } from "@tanstack/react-router";
 import { useMemo } from "react";
+
+import CopyMeDialog from "@/routes/private/copy-me/dialog/copy-me-dialog";
+import ProductDialog from "@/routes/private/product/dialog/product-dialog";
 
 const MainDialog = () => {
   const searchParams = useSearch({
@@ -16,6 +18,9 @@ const MainDialog = () => {
 
   if (dialogState?.dialog === "Copy-Me") {
     return <CopyMeDialog state={dialogState} />;
+  }
+  if (dialogState?.dialog === "Product") {
+    return <ProductDialog state={dialogState} />;
   }
 
   return null;

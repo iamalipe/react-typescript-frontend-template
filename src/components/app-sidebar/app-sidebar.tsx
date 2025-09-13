@@ -7,7 +7,7 @@ import {
   SidebarGroupLabel,
   SidebarMenu,
 } from "@/components/ui/sidebar";
-import { Home, Sheet, SquareKanban, User } from "lucide-react";
+import { Home, Package, Sheet, SquareKanban, User } from "lucide-react";
 
 export function AppSidebar() {
   const _items = [
@@ -20,6 +20,11 @@ export function AppSidebar() {
       title: "Copy Me",
       url: "/copy-me",
       icon: User,
+    },
+    {
+      title: "Product",
+      url: "/product",
+      icon: Package,
     },
     {
       title: "Excel Sheet",
