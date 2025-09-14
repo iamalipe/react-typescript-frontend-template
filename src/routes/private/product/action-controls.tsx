@@ -1,10 +1,12 @@
 import { AsyncRefreshButton } from "@/components/custom/async-button";
 import ColumnsViewControls from "@/components/data-table/columns-view-controls";
+import SearchInput from "@/components/data-table/search-input";
 import { Button } from "@/components/ui";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { DataTable } from "@/hooks/useDataTable";
 import { validateAndStringify } from "@/lib/generic-validation";
-import { useNavigate, useRouter } from "@tanstack/react-router";
+import { sleep } from "@/lib/utils";
+import { useNavigate, useRouter, useSearch } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 import { dialogStateZodSchema } from "../private-route";
 
@@ -17,6 +19,9 @@ const ActionControls = <T,>(props: ActionControlsProps<T>) => {
 
   const navigate = useNavigate({ from: "/product" });
   const router = useRouter();
+  const searchParam = useSearch({
+    from: "/_private/product",
+  });
 
   const onRefresh = async () => {
     await router.invalidate({ sync: true });
@@ -36,10 +41,22 @@ const ActionControls = <T,>(props: ActionControlsProps<T>) => {
     });
   };
 
+  const onSearchChange = async (searchValue: string) => {
+    console.log("onSearchChange");
+    await sleep(2000);
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        search: searchValue,
+      }),
+    });
+  };
+
   return (
     <div className="flex flex-none justify-between">
       <div className="flex gap-2 md:gap-4">
         <SidebarTrigger variant="outline" />
+        <SearchInput value={searchParam.search} onChange={onSearchChange} />
       </div>
       <div className="flex gap-2 md:gap-4">
         <Button

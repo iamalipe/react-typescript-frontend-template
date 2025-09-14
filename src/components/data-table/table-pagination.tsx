@@ -19,7 +19,7 @@ const TablePagination = <T,>(props: TablePaginationProps<T>) => {
   const { dataTable } = props;
 
   return (
-    <Pagination>
+    <Pagination className="justify-end">
       <PaginationContent>
         <PaginationItem>
           <Button

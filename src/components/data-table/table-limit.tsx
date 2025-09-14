@@ -18,8 +18,8 @@ const TableLimit = <T,>(props: TableLimitProps<T>) => {
   const pageSize = dataTable.pagination.pageSize;
 
   return (
-    <div className="flex items-center gap-3">
-      <span className="text-xs text-muted-foreground text-right whitespace-nowrap">
+    <div className="flex md:flex-row flex-row-reverse items-center gap-3">
+      <span className="text-xs text-muted-foreground md:text-right whitespace-nowrap">
         Rows Per
         <br />
         Page

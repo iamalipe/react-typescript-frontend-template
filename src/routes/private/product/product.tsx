@@ -7,7 +7,7 @@ import useSort from "@/hooks/useSort";
 import { useTableVisibility } from "@/store/use-table-columns-visibility-store";
 import { getRouteApi, Outlet } from "@tanstack/react-router";
 import ActionControls from "./action-controls";
-import { TableActionContextMenu } from "./table-action";
+import { TableActionContextMenu, TableSelectAction } from "./table-action";
 import tableColumns from "./table-columns";
 
 const routeApi = getRouteApi("/_private/product");
@@ -50,6 +50,7 @@ const Product = () => {
           contextMenu={(data) => <TableActionContextMenu data={data} />}
         />
         <TableFooter dataTable={dataTable} />
+        <TableSelectAction />
       </main>
       <Outlet />
     </>
