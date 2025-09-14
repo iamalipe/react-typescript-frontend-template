@@ -7,19 +7,22 @@ export type SortType = {
 };
 
 type UseSortProps = {
-  initialSort?: SortType[];
-  onChange?: (data: SortType[]) => void;
+  initialSort?: SortType;
+  onChange?: (data: SortType) => void;
   routeFrom: LinkProps["from"];
 };
 
 const useSort = (props: UseSortProps) => {
-  const initialSort = props.initialSort ?? [];
+  const initialSort = props.initialSort ?? {
+    orderBy: "",
+    order: "desc",
+  };
 
   const onChange = props.onChange;
 
   const navigate = useNavigate({ from: props.routeFrom });
 
-  const [sorting, setSorting] = useState<SortType[]>(initialSort);
+  const [sorting, setSorting] = useState<SortType>(initialSort);
 
   const isFirstRender = useRef(true);
 
@@ -33,13 +36,13 @@ const useSort = (props: UseSortProps) => {
     navigate({
       search: (prev) => ({
         ...prev,
-        order: sorting?.[0]?.order || "",
-        orderBy: sorting?.[0]?.orderBy || "",
+        order: sorting.order,
+        orderBy: sorting.orderBy,
       }),
     });
   }, [sorting, onChange, navigate]);
 
-  const onSortChange = (newSort: SortType[]) => {
+  const onSortChange = (newSort: SortType) => {
     setSorting(newSort);
   };
 

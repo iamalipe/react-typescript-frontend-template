@@ -1,16 +1,16 @@
 import { ArrowDown, ArrowUp, ChevronsUpDown, EyeOff } from "lucide-react";
 
-import { DataTable, DataTableColumnFinal } from "@/hooks/useDataTable";
-import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { TableHead } from "../ui/table";
+} from "@/components/ui/dropdown-menu";
+import { TableHead } from "@/components/ui/table";
+import { DataTable, DataTableColumnFinal } from "@/hooks/useDataTable";
+import { cn } from "@/lib/utils";
 
 export type TableSortHeaderProps<T> = {
   dataTable: DataTable<T>;
@@ -20,14 +20,12 @@ export type TableSortHeaderProps<T> = {
 const TableSortHeader = <T,>(props: TableSortHeaderProps<T>) => {
   const { dataTable, item } = props;
 
-  const findSortIndex =
-    dataTable.sort?.findIndex((sort) => sort.orderBy === item.key) ?? -1;
+  const findSort = dataTable.sort?.orderBy === item.key;
 
-  const ordered =
-    findSortIndex !== -1 ? dataTable.sort?.[findSortIndex].order : undefined;
+  const ordered = findSort ? dataTable.sort?.order : undefined;
 
   return (
-    <TableHead key={item.id} className={cn([item.classNameHeader])}>
+    <TableHead key={item.id}>
       <div className="flex items-center space-x-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -52,13 +50,14 @@ const TableSortHeader = <T,>(props: TableSortHeaderProps<T>) => {
               className={cn({ "text-primary": ordered === "asc" })}
               onClick={() =>
                 ordered === "asc"
-                  ? dataTable.onSortingChange?.([])
-                  : dataTable.onSortingChange?.([
-                      {
-                        orderBy: item.key as string,
-                        order: "asc",
-                      },
-                    ])
+                  ? dataTable.onSortingChange?.({
+                      order: "desc",
+                      orderBy: "",
+                    })
+                  : dataTable.onSortingChange?.({
+                      orderBy: item.key as string,
+                      order: "asc",
+                    })
               }
             >
               <ArrowUp
@@ -73,13 +72,14 @@ const TableSortHeader = <T,>(props: TableSortHeaderProps<T>) => {
               className={cn({ "text-primary": ordered === "desc" })}
               onClick={() =>
                 ordered === "desc"
-                  ? dataTable.onSortingChange?.([])
-                  : dataTable.onSortingChange?.([
-                      {
-                        orderBy: item.key as string,
-                        order: "desc",
-                      },
-                    ])
+                  ? dataTable.onSortingChange?.({
+                      order: "desc",
+                      orderBy: "",
+                    })
+                  : dataTable.onSortingChange?.({
+                      orderBy: item.key as string,
+                      order: "desc",
+                    })
               }
             >
               <ArrowDown

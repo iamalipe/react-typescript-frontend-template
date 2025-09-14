@@ -23,7 +23,7 @@ const Product = () => {
   });
 
   const sort = useSort({
-    initialSort: [],
+    initialSort: routeData.data.sort,
     routeFrom: "/product",
   });
 

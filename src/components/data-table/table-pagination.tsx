@@ -1,16 +1,16 @@
+import { Button } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
 } from "@/components/ui/pagination";
-import { Button } from "../ui/button";
+import { DataTable } from "@/hooks/useDataTable";
 import {
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
-import { DataTable } from "@/hooks/useDataTable";
 
 export type TablePaginationProps<T> = {
   dataTable: DataTable<T>;

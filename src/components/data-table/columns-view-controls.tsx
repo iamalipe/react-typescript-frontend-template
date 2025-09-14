@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { DataTable } from "@/hooks/useDataTable";
 
 export type ColumnsViewControlsProps<T> = {
