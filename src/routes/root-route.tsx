@@ -17,6 +17,7 @@ import loginRoute from "@/routes/auth/login/login-route";
 import registerRoute from "@/routes/auth/register/register-route";
 import kanbanRoute from "./private-admin/kanban/kanban-route";
 import productRoute from "./private-admin/product/product-route";
+import blogHomeRoute from "./public-blog/blog-home/blog-home-route";
 import publicBlogRoute from "./public-blog/public-blog-route";
 import publicHomeRoute from "./public-home/public-home-route";
 
@@ -32,7 +33,7 @@ export const rootRoute = createRootRouteWithContext<{
 
 export const routeTree = rootRoute.addChildren([
   publicHomeRoute,
-  publicBlogRoute,
+  publicBlogRoute.addChildren([blogHomeRoute]),
   privateAdminRoute.addChildren([homeRoute, kanbanRoute, productRoute]),
   authRoute.addChildren([loginRoute, registerRoute]),
 ]);
