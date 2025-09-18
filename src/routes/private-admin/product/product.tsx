@@ -10,7 +10,7 @@ import ActionControls from "./action-controls";
 import { TableActionContextMenu, TableSelectAction } from "./table-action";
 import tableColumns from "./table-columns";
 
-const routeApi = getRouteApi("/_private/product");
+const routeApi = getRouteApi("/admin/product");
 const Product = () => {
   const routeData = routeApi.useLoaderData();
 
@@ -19,12 +19,12 @@ const Product = () => {
   const pagination = usePagination({
     initialPageSize: routeData.data.pagination.limit,
     initialPageIndex: routeData.data.pagination.page,
-    routeFrom: "/product",
+    routeFrom: "/admin/product",
   });
 
   const sort = useSort({
     initialSort: routeData.data.sort,
-    routeFrom: "/product",
+    routeFrom: "/admin/product",
   });
 
   const dataTable = useDataTable({

@@ -8,7 +8,7 @@ import { validateAndStringify } from "@/lib/generic-validation";
 import { sleep } from "@/lib/utils";
 import { useNavigate, useRouter, useSearch } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
-import { dialogStateZodSchema } from "../private-route";
+import { dialogStateZodSchema } from "../private-admin-route";
 
 export type ActionControlsProps<T> = {
   dataTable: DataTable<T>;
@@ -17,10 +17,10 @@ export type ActionControlsProps<T> = {
 const ActionControls = <T,>(props: ActionControlsProps<T>) => {
   const { dataTable } = props;
 
-  const navigate = useNavigate({ from: "/product" });
+  const navigate = useNavigate({ from: "/admin/product" });
   const router = useRouter();
   const searchParam = useSearch({
-    from: "/_private/product",
+    from: "/admin/product",
   });
 
   const onRefresh = async () => {

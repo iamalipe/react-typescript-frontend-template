@@ -3,7 +3,7 @@ import { createRoute, lazyRouteComponent } from "@tanstack/react-router";
 import ErrorPage from "@/components/general/error-page";
 import LoadingElement from "@/components/general/loading-element";
 import PageNotFound from "@/components/general/page-not-found";
-import privateRoute from "@/routes/private/private-route";
+import privateAdminRoute from "@/routes/private-admin/private-admin-route";
 import { zodValidator } from "@tanstack/zod-adapter";
 
 import { createTypeSafeLoaderDeps } from "@/lib/generic-validation";
@@ -22,7 +22,7 @@ export const getAllZodSchema = z.object({
 });
 
 const productRoute = createRoute({
-  getParentRoute: () => privateRoute,
+  getParentRoute: () => privateAdminRoute,
   path: "/product",
   component: lazyRouteComponent(() => import("./product")),
   loaderDeps: ({ search }) => createTypeSafeLoaderDeps(getAllZodSchema, search),

@@ -8,17 +8,17 @@ import { ApiQuery } from "@/hooks/use-api-query";
 import RootLayout from "@/routes/root-layout";
 
 // privateRoute
-import copyMeRoute from "@/routes/private/copy-me/copy-me-route";
-import homeRoute from "@/routes/private/home/home-route";
-import privateRoute from "@/routes/private/private-route";
+import homeRoute from "@/routes/private-admin/home/home-route";
+import privateAdminRoute from "@/routes/private-admin/private-admin-route";
 
 // authRoute
 import authRoute from "@/routes/auth/auth-route";
 import loginRoute from "@/routes/auth/login/login-route";
 import registerRoute from "@/routes/auth/register/register-route";
-import excelSheetRoute from "./private/excel-sheet/excel-sheet-route";
-import kanbanRoute from "./private/kanban/kanban-route";
-import productRoute from "./private/product/product-route";
+import kanbanRoute from "./private-admin/kanban/kanban-route";
+import productRoute from "./private-admin/product/product-route";
+import publicBlogRoute from "./public-blog/public-blog-route";
+import publicHomeRoute from "./public-home/public-home-route";
 
 export const rootRoute = createRootRouteWithContext<{
   apiQuery: ApiQuery;
@@ -31,12 +31,8 @@ export const rootRoute = createRootRouteWithContext<{
 });
 
 export const routeTree = rootRoute.addChildren([
-  privateRoute.addChildren([
-    homeRoute,
-    copyMeRoute,
-    excelSheetRoute,
-    kanbanRoute,
-    productRoute,
-  ]),
+  publicHomeRoute,
+  publicBlogRoute,
+  privateAdminRoute.addChildren([homeRoute, kanbanRoute, productRoute]),
   authRoute.addChildren([loginRoute, registerRoute]),
 ]);

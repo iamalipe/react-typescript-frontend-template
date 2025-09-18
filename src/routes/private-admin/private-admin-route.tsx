@@ -1,6 +1,6 @@
 import { createTypeSafeLoaderDeps } from "@/lib/generic-validation";
 import { mongoIdRegex } from "@/lib/utils";
-import PrivateLayout from "@/routes/private/private-layout";
+import PrivateAdminLayout from "@/routes/private-admin/private-admin-layout";
 import { rootRoute } from "@/routes/root-route";
 import { createRoute, redirect } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
@@ -17,10 +17,10 @@ export const privateRouteZodSchema = z.object({
   ds: z.string().optional(), // dialog state
 });
 
-const privateRoute = createRoute({
+const privateAdminRoute = createRoute({
   getParentRoute: () => rootRoute,
-  id: "_private",
-  component: PrivateLayout,
+  path: "/admin",
+  component: PrivateAdminLayout,
   loaderDeps: ({ search }) =>
     createTypeSafeLoaderDeps(privateRouteZodSchema, search),
   validateSearch: zodValidator(privateRouteZodSchema),
@@ -37,4 +37,4 @@ const privateRoute = createRoute({
   },
 });
 
-export default privateRoute;
+export default privateAdminRoute;

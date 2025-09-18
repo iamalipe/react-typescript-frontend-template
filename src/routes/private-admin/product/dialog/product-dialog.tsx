@@ -15,7 +15,7 @@ import apiQuery from "@/hooks/use-api-query";
 import useQueryLoadingState from "@/hooks/use-query-loading-state";
 import { handleFormError } from "@/lib/form";
 import { cn } from "@/lib/utils";
-import { DialogStateType } from "@/routes/private/private-route";
+import { DialogStateType } from "@/routes/private-admin/private-admin-route";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
@@ -68,7 +68,7 @@ const DialogMain = ({ data, state }: ProductDialogProps) => {
   const onClose = () => {
     form.reset();
     navigate({
-      to: "/product",
+      to: "/admin/product",
       search: (prev) => ({
         ...prev,
         ds: undefined,

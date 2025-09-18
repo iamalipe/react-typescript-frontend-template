@@ -8,17 +8,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui";
-import { Badge } from "@/components/ui/badge";
 import { validateAndStringify } from "@/lib/generic-validation";
 import { useNavigate } from "@tanstack/react-router";
-import { dialogStateZodSchema } from "../../private-route";
-import { CopyMeDialogProps } from "./copy-me-dialog";
+import { dialogStateZodSchema } from "../../private-admin-route";
+import { ProductDialogProps } from "./product-dialog";
 
-const DialogViewMode = ({ data }: CopyMeDialogProps) => {
+const DialogViewMode = ({ data }: ProductDialogProps) => {
   const navigate = useNavigate();
   const onClose = () => {
     navigate({
-      to: "/copy-me",
+      to: "/admin/product",
       search: (prev) => ({
         ...prev,
         ds: undefined,
@@ -29,14 +28,14 @@ const DialogViewMode = ({ data }: CopyMeDialogProps) => {
   const onEdit = () => {
     if (!data) return;
     const ds = validateAndStringify(dialogStateZodSchema, {
-      dialog: "Copy-Me",
+      dialog: "Product",
       id: data._id,
       mode: "UPDATE",
     });
 
     if (!ds) return;
     navigate({
-      to: "/copy-me",
+      to: "/admin/product",
       search: (prev) => ({
         ...prev,
         ds: ds,
@@ -58,7 +57,7 @@ const DialogViewMode = ({ data }: CopyMeDialogProps) => {
           aria-busy="true"
         >
           <DialogHeader className="flex-none">
-            <DialogTitle>Title</DialogTitle>
+            <DialogTitle>Product</DialogTitle>
             <DialogDescription>
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
               Recusandae ipsum porro sapiente! Perferendis harum dolorem culpa
@@ -67,42 +66,24 @@ const DialogViewMode = ({ data }: CopyMeDialogProps) => {
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col overflow-auto flex-1 px-2">
-            {data?.stringField && (
-              <ViewField label="String Field">
-                <span>{data.stringField}</span>
+            {data?.name && (
+              <ViewField label="Name">
+                <span>{data.name}</span>
               </ViewField>
             )}
-            {data?.numberField && (
-              <ViewField label="Number Field">
-                <span>{data.numberField}</span>
+            {data?.category && (
+              <ViewField label="Category">
+                <span>{data.category}</span>
               </ViewField>
             )}
-            {data?.floatField && (
-              <ViewField label="Float Field">
-                <span>{data.floatField}</span>
+            {data?.price && (
+              <ViewField label="Price">
+                <span>{data.price}</span>
               </ViewField>
             )}
-            {data?.enumField && (
-              <ViewField label="Enum Field">
-                <span>{data.enumField}</span>
-              </ViewField>
-            )}
-            {data?.objectField && (
-              <ViewField label="Storage">
-                <div className="flex items-center gap-2">
-                  <span>{data.objectField.key2}</span>
-                  <Badge variant="outline">{data.objectField.key1}</Badge>
-                </div>
-              </ViewField>
-            )}
-            {data?.booleanField !== undefined && (
-              <ViewField label="Status">
-                <Badge>{data.booleanField ? "Enabled" : "Disabled"}</Badge>
-              </ViewField>
-            )}
-            {data?.bigStringField && (
-              <ViewField label="Big String Field" block>
-                {data.bigStringField}
+            {data?.description && (
+              <ViewField label="Description" block>
+                {data.description}
               </ViewField>
             )}
           </div>

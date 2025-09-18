@@ -24,10 +24,10 @@ import { useNavigate, useRouter } from "@tanstack/react-router";
 import { Menu, XIcon } from "lucide-react";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { dialogStateZodSchema } from "../private-route";
+import { dialogStateZodSchema } from "../private-admin-route";
 
 export const TableAction = ({ data }: { data: ProductType }) => {
-  const navigate = useNavigate({ from: "/product" });
+  const navigate = useNavigate({ from: "/admin/product" });
   const isMobile = useIsMobile();
   const router = useRouter();
   const onView = async () => {
@@ -107,7 +107,7 @@ export const TableAction = ({ data }: { data: ProductType }) => {
 };
 
 export const TableActionContextMenu = ({ data }: { data: ProductType }) => {
-  const navigate = useNavigate({ from: "/product" });
+  const navigate = useNavigate({ from: "/admin/product" });
   const router = useRouter();
   const onView = async () => {
     const ds = validateAndStringify(dialogStateZodSchema, {
