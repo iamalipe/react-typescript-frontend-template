@@ -3,6 +3,7 @@ import axios from "axios";
 
 // import all api
 import { authAPI } from "./auth-api";
+import { blogAPI } from "./blog-api";
 import { copyMeAPI } from "./copy-me-api";
 import { productAPI } from "./product-api";
 
@@ -18,6 +19,7 @@ const api = {
   auth: authAPI(axiosInstance),
   copyMe: copyMeAPI(axiosInstance),
   product: productAPI(axiosInstance),
+  blog: blogAPI(axiosInstance),
 };
 
 export type ApiType = typeof api;
