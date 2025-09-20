@@ -70,7 +70,7 @@ export function BlogCard({ post }: BlogCardProps) {
                 {post.title}
               </h2>
             )}
-            <p className="text-muted-foreground text-base leading-relaxed line-clamp-3">
+            <p className="text-muted-foreground text-base leading-relaxed line-clamp-6">
               {post.content}
             </p>
           </div>

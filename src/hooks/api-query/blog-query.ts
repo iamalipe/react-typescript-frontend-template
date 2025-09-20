@@ -1,5 +1,7 @@
 import {
+  infiniteQueryOptions,
   queryOptions,
+  useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
@@ -8,6 +10,7 @@ import {
 import api from "@/api/api";
 import {
   ApiBlogCreate,
+  ApiBlogGetAll,
   ApiBlogGetAllParams,
   ApiBlogUpdate,
 } from "@/api/blog-api";
@@ -27,12 +30,33 @@ const getOptions = (id: string) =>
     queryFn: () => api.blog.get(id),
   });
 
+const getInfiniteOptions = (params?: Omit<ApiBlogGetAllParams, "page">) =>
+  infiniteQueryOptions({
+    queryKey: [...blogQueryKey, "infinite", params],
+    queryFn: ({ pageParam = 1 }) =>
+      api.blog.getAll({ ...params, page: pageParam }),
+    getNextPageParam: (lastPage: ApiBlogGetAll) => {
+      const { pagination } = lastPage;
+      return pagination.page * pagination.limit < pagination.total
+        ? pagination.page + 1
+        : undefined;
+    },
+    initialPageParam: 1,
+  });
+
 export const blogQuery = (queryClient: QueryClient) => ({
   // getAll
   getAllOptions,
   getAll: (params?: ApiBlogGetAllParams) =>
     queryClient.fetchQuery(getAllOptions(params)),
   useGetAll: (params?: ApiBlogGetAllParams) => useQuery(getAllOptions(params)),
+
+  // infinite getAll
+  getInfiniteOptions,
+  getInfinite: (params?: Omit<ApiBlogGetAllParams, "page">) =>
+    queryClient.fetchInfiniteQuery(getInfiniteOptions(params)),
+  useGetInfinite: (params?: Omit<ApiBlogGetAllParams, "page">) =>
+    useInfiniteQuery(getInfiniteOptions(params)),
 
   // get
   getOptions,

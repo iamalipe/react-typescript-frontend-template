@@ -1,4 +1,4 @@
-import { BlogCard } from "../components/blog-card";
+import BlogList from "./blog-list";
 import SearchAndAction from "./search-and-action";
 
 const BlogHome = () => {
@@ -8,22 +8,7 @@ const BlogHome = () => {
         <div className="flex-1 container mx-auto px-4 py-4 max-w-2xl flex flex-col">
           <SearchAndAction />
           {/* Blog List Cards */}
-          <div className="animate-fadeIn flex-1 flex flex-col gap-4">
-            {Array.from({ length: 50 }, (_, i) => (
-              <BlogCard
-                key={i}
-                post={{
-                  id: `${i}`,
-                  content: `Excerpt for blog post ${i}`,
-                  author: `Author ${i}`,
-                  date: "2023-01-01",
-                  tags: [],
-                  likes: 0,
-                  comments: 5,
-                }}
-              />
-            ))}
-          </div>
+          <BlogList />
         </div>
       </main>
     </>
