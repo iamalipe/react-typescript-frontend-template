@@ -1,3 +1,4 @@
+import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
 import {
   Table,
   TableBody,
@@ -8,7 +9,6 @@ import {
 } from "@/components/ui/table";
 import { DataTable as DataTableType } from "@/hooks/useDataTable";
 import { cn } from "@/lib/utils";
-import { ContextMenu, ContextMenuTrigger } from "../ui/context-menu";
 import TableSortHeader from "./table-sort-header";
 
 export type DataTableProps<T> = {

@@ -11,7 +11,7 @@ const authRoute = createRoute({
     const res = await apiQuery.auth.getCurrentUser();
     if (res && res.success) {
       throw redirect({
-        to: "/",
+        to: "/admin",
       });
     }
   },

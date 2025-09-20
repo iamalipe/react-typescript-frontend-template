@@ -65,12 +65,26 @@ const useTableColumnsVisibilityStore = create(
   )
 );
 
-export const useTableVisibility = (tableKey: string) => {
+export const useTableVisibility = (
+  tableKey: string,
+  defaultKeys: string[] = []
+) => {
   const columnsState = useTableColumnsVisibilityStore((state) => state.tables);
   const toggleTableVisibility = useTableColumnsVisibilityStore(
     (state) => state.toggleTableVisibility
   );
+
   const columns = columnsState.find((tables) => tables.tableKey === tableKey);
+
+  // Initialize with default values if columns don't exist
+  if (!columns) {
+    const defaultColumns = defaultKeys.reduce((acc, key) => {
+      acc[key] = false; // Set all default columns to visible
+      return acc;
+    }, {} as { [key: string]: boolean });
+
+    toggleTableVisibility(tableKey, defaultColumns);
+  }
 
   const toggleVisibility = (params: { [key: string]: boolean }) => {
     toggleTableVisibility(tableKey, params);

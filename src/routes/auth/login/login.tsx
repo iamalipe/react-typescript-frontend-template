@@ -36,7 +36,7 @@ const Login = () => {
   const { redirect } = useSearch({ from: "/_auth/login" }) as LoginSearchParams;
 
   const defaultValues: Partial<FormSchemaType> = {
-    email: "abhiseck@yopmail.com",
+    email: "sydney.shannon.244535@yopmail.com",
     password: "Abcd@1234",
   };
 
@@ -61,7 +61,7 @@ const Login = () => {
           navigate({ to: redirect });
         }
       } else {
-        navigate({ to: "/" });
+        navigate({ to: "/admin" });
       }
       form.reset();
     }
