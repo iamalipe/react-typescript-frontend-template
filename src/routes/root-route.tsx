@@ -15,6 +15,7 @@ import privateAdminRoute from "@/routes/private-admin/private-admin-route";
 import authRoute from "@/routes/auth/auth-route";
 import loginRoute from "@/routes/auth/login/login-route";
 import registerRoute from "@/routes/auth/register/register-route";
+import login2Route from "./auth/login-2/login-route";
 import kanbanRoute from "./private-admin/kanban/kanban-route";
 import productRoute from "./private-admin/product/product-route";
 import blogHomeRoute from "./public-blog/blog-home/blog-home-route";
@@ -35,5 +36,5 @@ export const routeTree = rootRoute.addChildren([
   publicHomeRoute,
   publicBlogRoute.addChildren([blogHomeRoute]),
   privateAdminRoute.addChildren([homeRoute, kanbanRoute, productRoute]),
-  authRoute.addChildren([loginRoute, registerRoute]),
+  authRoute.addChildren([loginRoute, login2Route, registerRoute]),
 ]);
