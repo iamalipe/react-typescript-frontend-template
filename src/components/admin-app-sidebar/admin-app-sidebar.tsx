@@ -4,17 +4,18 @@ import AdminAppSidebarMenuItem, {
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
 } from "@/components/ui/sidebar";
 import { Home, Package, SquareKanban } from "lucide-react";
+import { NavUser } from "./nav-user";
 
 const pageMenus: AdminAppSidebarMenuItemProps[] = [
   {
     title: "Home",
-    url: "/",
+    url: "/admin",
     icon: <Home />,
   },
   {
@@ -33,10 +34,14 @@ export function AdminAppSidebar() {
   const items = [...pageMenus];
 
   return (
-    <Sidebar className="mt-16 mb-12 h-[calc(100svh-7rem)]" variant="floating">
+    <Sidebar
+      className="mt-16 mb-12 h-[calc(100svh-7rem)]"
+      variant="floating"
+      collapsible="icon"
+    >
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Pages</SidebarGroupLabel>
+          {/* <SidebarGroupLabel>Pages</SidebarGroupLabel> */}
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -46,6 +51,15 @@ export function AdminAppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser
+          user={{
+            avatar: "",
+            email: "abhiseck@outlook.com",
+            name: "Abhiseck",
+          }}
+        />
+      </SidebarFooter>
     </Sidebar>
   );
 }

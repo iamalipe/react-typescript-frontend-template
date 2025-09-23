@@ -14,7 +14,7 @@ const AdminAppSidebarMenuItem = (props: AdminAppSidebarMenuItemProps) => {
 
   return (
     <SidebarMenuItem>
-      <SidebarMenuButton isActive={pathname === url} asChild>
+      <SidebarMenuButton variant="accent" isActive={pathname === url} asChild>
         <Link to={url}>
           {props.icon}
           <span>{title}</span>
