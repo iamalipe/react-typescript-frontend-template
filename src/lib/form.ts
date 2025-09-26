@@ -12,16 +12,28 @@ export function getErrorByPath<T extends FieldValues>(
     );
 }
 
-export function handleFormError(form: any, error: any) {
-  if (Array.isArray(error?.errors) && error?.errors?.length > 0) {
+export function handleFormError({
+  form,
+  error,
+  defaultMessage = "Something wrong.",
+}: {
+  form: any;
+  error: any;
+  defaultMessage?: string;
+}) {
+  if (
+    error?.errors &&
+    Array.isArray(error?.errors) &&
+    error?.errors?.length > 0
+  ) {
     error?.errors.forEach((er: any) =>
       form.setError(er.path, {
-        message: er?.message || "Something wrong, please  ty again.",
+        message: er?.message || defaultMessage,
       })
     );
   } else {
     form.setError("root", {
-      message: error?.message || "Something wrong, please  ty again.",
+      message: error?.message || defaultMessage,
     });
   }
 }

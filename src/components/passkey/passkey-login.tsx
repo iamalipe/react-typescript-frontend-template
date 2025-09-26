@@ -1,14 +1,14 @@
 import api from "@/api/api";
 import { currentUserQueryKey } from "@/hooks/api-query/auth-query";
 import { queryClient } from "@/hooks/use-api-query";
-import { LoginSearchParams } from "@/routes/auth/login/login";
+import { SearchParams } from "@/routes/auth/login/login";
 import { startAuthentication } from "@simplewebauthn/browser";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Button } from "../ui";
 
 const PasskeyLogin = () => {
   const navigate = useNavigate();
-  const { redirect } = useSearch({ from: "/_auth/login" }) as LoginSearchParams;
+  const { redirect } = useSearch({ from: "/_auth/login" }) as SearchParams;
 
   async function registerPasskey() {
     const opts = await api.auth.passKeyLogin();
