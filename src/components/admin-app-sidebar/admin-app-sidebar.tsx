@@ -52,13 +52,7 @@ export function AdminAppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser
-          user={{
-            avatar: "",
-            email: "abhiseck@outlook.com",
-            name: "Abhiseck",
-          }}
-        />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );

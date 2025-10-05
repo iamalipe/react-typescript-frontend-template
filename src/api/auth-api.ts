@@ -25,10 +25,18 @@ export type RegisterReturn = {
 };
 
 export type CurrentUser = {
-  id: string;
+  id?: string;
+  _id: string;
   email: string;
   createdAt: string;
   updatedAt: string;
+  firstName: string;
+  lastName: string;
+  sex?: "male" | "female" | "other";
+  role: "user" | "root";
+  dateOfBirth?: string;
+  jobTitle?: string[];
+  profileImage?: string;
 };
 export type CurrentUserReturn = {
   success: boolean;
