@@ -6,3 +6,8 @@ export type ApiNormalResponse = {
   timestamp: string;
   errors: ApiValidationError[];
 };
+
+export type TableConfigType = {
+  search: boolean;
+  searchPlaceholder?: string;
+};

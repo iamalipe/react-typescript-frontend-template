@@ -1,6 +1,6 @@
 // project-api.ts
 import { qString } from "@/lib/utils";
-import { ApiNormalResponse } from "@/types/generic-type";
+import { ApiNormalResponse, TableConfigType } from "@/types/generic-type";
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
 import axios from "axios";
 
@@ -28,6 +28,7 @@ export type ApiProductGetAll = ApiNormalResponse & {
   data: ProductType[];
   pagination: { total: number; page: number; limit: number };
   sort: { orderBy: string; order: "asc" | "desc" };
+  config?: TableConfigType;
 };
 export type ApiProductGet = ApiNormalResponse & { data: ProductType };
 

@@ -5,18 +5,23 @@ import { Button } from "@/components/ui";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { DataTable } from "@/hooks/useDataTable";
 import { validateAndStringify } from "@/lib/generic-validation";
-import { sleep } from "@/lib/utils";
-import { useNavigate, useRouter, useSearch } from "@tanstack/react-router";
+import { TableConfigType } from "@/types/generic-type";
+import {
+  getRouteApi,
+  useNavigate,
+  useRouter,
+  useSearch,
+} from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 import { dialogStateZodSchema } from "../private-admin-route";
 
 export type ActionControlsProps<T> = {
   dataTable: DataTable<T>;
 };
-
+const routeApi = getRouteApi("/admin/product");
 const ActionControls = <T,>(props: ActionControlsProps<T>) => {
   const { dataTable } = props;
-
+  const routeData = routeApi.useLoaderData();
   const navigate = useNavigate({ from: "/admin/product" });
   const router = useRouter();
   const searchParam = useSearch({
@@ -42,8 +47,6 @@ const ActionControls = <T,>(props: ActionControlsProps<T>) => {
   };
 
   const onSearchChange = async (searchValue: string) => {
-    console.log("onSearchChange");
-    await sleep(2000);
     navigate({
       search: (prev) => ({
         ...prev,
@@ -52,11 +55,22 @@ const ActionControls = <T,>(props: ActionControlsProps<T>) => {
     });
   };
 
+  const tableConfig: TableConfigType = routeData.data.config || {
+    search: true,
+    searchPlaceholder: "Search...",
+  };
+
   return (
     <div className="flex flex-none justify-between">
       <div className="flex gap-2 md:gap-4">
         <SidebarTrigger variant="outline" />
-        <SearchInput value={searchParam.search} onChange={onSearchChange} />
+        {tableConfig.search && (
+          <SearchInput
+            value={searchParam.search}
+            onChange={onSearchChange}
+            placeholder={tableConfig.searchPlaceholder}
+          />
+        )}
       </div>
       <div className="flex gap-2 md:gap-4">
         <Button

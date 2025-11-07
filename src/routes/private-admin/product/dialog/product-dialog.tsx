@@ -68,7 +68,7 @@ const DialogMain = ({ data, state }: ProductDialogProps) => {
   const onClose = () => {
     form.reset();
     navigate({
-      to: "/admin/product",
+      to: ".",
       search: (prev) => ({
         ...prev,
         ds: undefined,

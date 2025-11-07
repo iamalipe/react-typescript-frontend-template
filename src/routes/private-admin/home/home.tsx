@@ -2,11 +2,15 @@ import alertPopup from "@/components/alert-popup/alert-popup";
 import PasskeyRegister from "@/components/passkey/passkey-register";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { validateAndStringify } from "@/lib/generic-validation";
 import { sleep } from "@/lib/utils";
+import { useNavigate } from "@tanstack/react-router";
 import ReactSelect from "react-select";
 import { toast } from "sonner";
+import { dialogStateZodSchema } from "../private-admin-route";
 
 const Home = () => {
+  const navigate = useNavigate({ from: "/admin" });
   const onToastTest = () => {
     toast("This is a test toast message!");
     toast("Event has been created", {
@@ -33,6 +37,20 @@ const Home = () => {
       cancelText: "Cancel",
     });
     console.log("res", res);
+  };
+
+  const onProductCreate = async () => {
+    const ds = validateAndStringify(dialogStateZodSchema, {
+      dialog: "Product",
+      mode: "CREATE",
+    });
+    if (!ds) return;
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        ds: ds,
+      }),
+    });
   };
 
   return (
@@ -76,6 +94,7 @@ const Home = () => {
             ]}
           />
           <Input />
+          <Button onClick={onProductCreate}>Open add Product Dialog</Button>
         </div>
       </div>
     </main>

@@ -14,7 +14,7 @@ import { Home, Package, SquareKanban } from "lucide-react";
 const pageMenus: AdminAppSidebarMenuItemProps[] = [
   {
     title: "Home",
-    url: "/",
+    url: "/admin",
     icon: <Home />,
   },
   {
