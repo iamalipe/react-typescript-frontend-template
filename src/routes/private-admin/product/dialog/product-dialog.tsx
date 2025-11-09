@@ -109,7 +109,7 @@ const DialogMain = ({ data, state }: ProductDialogProps) => {
           if (!open) onClose();
         }}
       >
-        <DialogContent className="sm:max-w-[600px] sm:max-h-[80vh] px-2 md:px-4 sm:px-6">
+        <DialogContent className="sm:max-w-[600px] sm:max-h-[80vh] px-2 md:px-6 sm:px-4">
           <DialogHeader>
             <DialogTitle>Product</DialogTitle>
             <DialogDescription>

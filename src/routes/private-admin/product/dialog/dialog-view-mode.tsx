@@ -52,7 +52,7 @@ const DialogViewMode = ({ data }: ProductDialogProps) => {
         }}
       >
         <DialogContent
-          className="md:max-w-[600px]  px-2 md:px-4 sm:px-6 flex flex-col sm:max-h-[90vh] overflow-hidden"
+          className="md:max-w-[600px] px-2 md:px-6 sm:px-4 flex flex-col sm:max-h-[90vh] overflow-hidden"
           aria-live="polite"
           aria-busy="true"
         >
