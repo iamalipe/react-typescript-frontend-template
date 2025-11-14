@@ -1,10 +1,10 @@
 import alertPopup from "@/components/alert-popup/alert-popup";
 import PasskeyRegister from "@/components/passkey/passkey-register";
-import { Textarea } from "@/components/ui";
+import { Label, Textarea } from "@/components/ui";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { sleep } from "@/lib/utils";
-import { useRef, useState } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import ReactSelect from "react-select";
 import { toast } from "sonner";
 
@@ -34,15 +34,6 @@ const Home = () => {
     });
     toast.warning("Event start time cannot be earlier than 8am");
   };
-  const onAlertTest = async () => {
-    const res = await alertPopup.show({
-      title: "Test Alert",
-      description: "This is a test alert message.",
-      okText: "OK",
-      cancelText: "Cancel",
-    });
-    console.log("res", res);
-  };
 
   return (
     <main className="flex-1 overflow-auto flex flex-col p-2 md:p-4 gap-2 md:gap-4">
@@ -51,7 +42,6 @@ const Home = () => {
         <div className="flex gap-2 mb-6">
           <PasskeyRegister />
           <Button onClick={onToastTest}>Toast Test</Button>
-          <Button onClick={onAlertTest}>Alert Test</Button>
         </div>
         <div className="flex flex-col gap-2 mb-6">
           <Input />
@@ -88,6 +78,7 @@ const Home = () => {
         </div>
         {/* context menu testing */}
         <TextareaContextMenuTesting />
+        <AlertTestingComponent />
       </div>
     </main>
   );
@@ -157,6 +148,67 @@ const TextareaContextMenuTesting = () => {
           </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
+    </div>
+  );
+};
+
+// AlertTestingComponent
+
+const CustomAlertFields = forwardRef((_props, ref) => {
+  const [input, setInput] = useState("");
+  const [input2, setInput2] = useState("");
+
+  useImperativeHandle(ref, () => ({
+    getValues: () => ({ input, input2 }),
+  }));
+
+  return (
+    <div className="flex flex-col gap-2">
+      <Label className="mb-2 block">Reason for this action</Label>
+      <Input
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Custom Input Field"
+      />
+      <Label className="mb-2 block">Extra info</Label>
+      <Input
+        value={input2}
+        onChange={(e) => setInput2(e.target.value)}
+        placeholder="Another field"
+      />
+    </div>
+  );
+});
+
+const AlertTestingComponent = () => {
+  const onAlertTest = async () => {
+    const res = await alertPopup.show({
+      title: "Test Alert",
+      description: "This is a test alert message.",
+      okText: "OK",
+      cancelText: "Cancel",
+    });
+    console.log("res", res);
+  };
+  const onAlertDelete = async () => {
+    const res = await alertPopup.delete();
+    console.log("res", res);
+  };
+  const onAlertInfo = async () => {
+    const res = await alertPopup.show({
+      title: "Custom Element Test Alert",
+      description: "This is a test alert message.",
+      okText: "OK",
+      cancelText: "Cancel",
+      customElement: <CustomAlertFields />,
+    });
+    console.log("res", res);
+  };
+  return (
+    <div className="flex gap-4 mt-4">
+      <Button onClick={onAlertTest}>Alert Confirm</Button>
+      <Button onClick={onAlertDelete}>Alert Delete</Button>
+      <Button onClick={onAlertInfo}>Alert Info</Button>
     </div>
   );
 };
