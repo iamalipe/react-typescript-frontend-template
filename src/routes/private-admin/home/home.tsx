@@ -1,10 +1,19 @@
 import alertPopup from "@/components/alert-popup/alert-popup";
 import PasskeyRegister from "@/components/passkey/passkey-register";
+import { Textarea } from "@/components/ui";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { sleep } from "@/lib/utils";
+import { useRef, useState } from "react";
 import ReactSelect from "react-select";
 import { toast } from "sonner";
+
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
 
 const Home = () => {
   const onToastTest = () => {
@@ -77,9 +86,77 @@ const Home = () => {
           />
           <Input />
         </div>
+        {/* context menu testing */}
+        <TextareaContextMenuTesting />
       </div>
     </main>
   );
 };
 
 export default Home;
+
+const TextareaContextMenuTesting = () => {
+  const [value, setValue] = useState("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const cursorPositionRef = useRef<number>(0);
+
+  const handleInsertText = (textToInsert: string) => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const start = cursorPositionRef.current;
+    const end = cursorPositionRef.current;
+    const beforeText = value.substring(0, start);
+    const afterText = value.substring(end);
+    const newValue = beforeText + textToInsert + afterText;
+
+    setValue(newValue);
+
+    // Set cursor position after the inserted text
+    setTimeout(() => {
+      const newCursorPosition = start + textToInsert.length;
+      textarea.setSelectionRange(newCursorPosition, newCursorPosition);
+      textarea.focus();
+    }, 0);
+  };
+
+  const handleContextMenuOpen = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      cursorPositionRef.current = textarea.selectionStart;
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-4">
+      <ContextMenu
+        onOpenChange={(open) => {
+          if (open) {
+            handleContextMenuOpen();
+          }
+        }}
+      >
+        <ContextMenuTrigger asChild>
+          <Textarea
+            ref={textareaRef}
+            placeholder="Context Menu Testing"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onSelect={(e) => {
+              const target = e.target as HTMLTextAreaElement;
+              cursorPositionRef.current = target.selectionStart;
+            }}
+          />
+        </ContextMenuTrigger>
+        <ContextMenuContent>
+          <ContextMenuItem onClick={() => handleInsertText("Hello")}>
+            Insert Hello
+          </ContextMenuItem>
+          <ContextMenuItem onClick={() => handleInsertText("World")}>
+            Insert World
+          </ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
+    </div>
+  );
+};
