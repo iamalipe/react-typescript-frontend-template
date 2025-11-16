@@ -40,6 +40,19 @@ const ActionControls = <T,>(props: ActionControlsProps<T>) => {
       }),
     });
   };
+  const onAllProducts = async () => {
+    const ds = validateAndStringify(dialogStateZodSchema, {
+      dialog: "Product",
+      mode: "VIEW-ALL",
+    });
+    if (!ds) return;
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        ds: ds,
+      }),
+    });
+  };
 
   const onSearchChange = async (searchValue: string) => {
     console.log("onSearchChange");
@@ -59,6 +72,9 @@ const ActionControls = <T,>(props: ActionControlsProps<T>) => {
         <SearchInput value={searchParam.search} onChange={onSearchChange} />
       </div>
       <div className="flex gap-2 md:gap-4">
+        <Button title="All Products" variant="outline" onClick={onAllProducts}>
+          All Products
+        </Button>
         <Button
           title="Create New"
           size="icon"

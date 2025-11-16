@@ -36,7 +36,7 @@ export type ProductDialogProps = {
   state: DialogStateType;
   data?: ProductType;
 };
-const CopyMeDialog = ({ state }: ProductDialogProps) => {
+const ProductDialog = ({ state }: ProductDialogProps) => {
   const productQuery = state.id ? apiQuery.product.useGet(state.id) : undefined;
   const { isLoading } = useQueryLoadingState(
     productQuery ? [productQuery] : []
@@ -47,7 +47,7 @@ const CopyMeDialog = ({ state }: ProductDialogProps) => {
     return <DialogViewMode state={state} data={productQuery?.data?.data} />;
   return <DialogMain state={state} data={productQuery?.data?.data} />;
 };
-export default CopyMeDialog;
+export default ProductDialog;
 
 const DialogMain = ({ data, state }: ProductDialogProps) => {
   const navigate = useNavigate();
@@ -82,7 +82,7 @@ const DialogMain = ({ data, state }: ProductDialogProps) => {
       toast.success("Record added.");
       onClose();
     } catch (err: any) {
-      handleFormError(form, err);
+      handleFormError({ form, error: err });
     }
   };
   const onUpdate = async (values: FormSchemaType) => {
@@ -97,7 +97,7 @@ const DialogMain = ({ data, state }: ProductDialogProps) => {
       toast.success("Record updated.");
       onClose();
     } catch (err: any) {
-      handleFormError(form, err);
+      handleFormError({ form, error: err });
     }
   };
 
