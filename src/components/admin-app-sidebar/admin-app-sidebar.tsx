@@ -38,6 +38,7 @@ export function AdminAppSidebar() {
       className="mt-16 mb-12 h-[calc(100svh-7rem)]"
       variant="floating"
       collapsible="icon"
+
     >
       <SidebarContent>
         <SidebarGroup>

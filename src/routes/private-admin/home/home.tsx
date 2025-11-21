@@ -7,6 +7,7 @@ import { sleep } from "@/lib/utils";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import ReactSelect from "react-select";
 import { toast } from "sonner";
+import { TooltipProvider } from "@/components/ui/tooltip"
 
 import {
   ContextMenu,
@@ -14,6 +15,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import { RichTextEditor } from "@/components/rich-text-editor/rich-text-editor";
 
 const Home = () => {
   const onToastTest = () => {
@@ -36,51 +38,54 @@ const Home = () => {
   };
 
   return (
-    <main className="flex-1 overflow-auto flex flex-col p-2 md:p-4 gap-2 md:gap-4">
-      <div>
-        <h1>Private Home Page</h1>
-        <div className="flex gap-2 mb-6">
-          <PasskeyRegister />
-          <Button onClick={onToastTest}>Toast Test</Button>
+    <TooltipProvider>
+      <main className="flex-1 overflow-auto flex flex-col p-2 md:p-4 gap-2 md:gap-4">
+        <div>
+          <h1>Private Home Page</h1>
+          <div className="flex gap-2 mb-6">
+            <PasskeyRegister />
+            <Button onClick={onToastTest}>Toast Test</Button>
+          </div>
+          <div className="flex flex-col gap-2 mb-6">
+            <Input />
+            <ReactSelect
+              value={{ value: "5", label: "Tiger" }}
+              onChange={(e) => {
+                console.log("onChange", e);
+              }}
+              // isMulti
+              options={[
+                { value: "1", label: "Dog" },
+                { value: "2", label: "Cat" },
+                { value: "3", label: "Elephant" },
+                { value: "4", label: "Lion" },
+                { value: "5", label: "Tiger" },
+                { value: "6", label: "Bear" },
+                { value: "7", label: "Wolf" },
+                { value: "8", label: "Fox" },
+                { value: "9", label: "Rabbit" },
+                { value: "10", label: "Deer" },
+                { value: "11", label: "Horse" },
+                { value: "12", label: "Cow" },
+                { value: "13", label: "Sheep" },
+                { value: "14", label: "Goat" },
+                { value: "15", label: "Pig" },
+                { value: "16", label: "Monkey" },
+                { value: "17", label: "Giraffe" },
+                { value: "18", label: "Zebra" },
+                { value: "19", label: "Kangaroo" },
+                { value: "20", label: "Panda" },
+              ]}
+            />
+            <Input />
+          </div>
+          {/* context menu testing */}
+          <TextareaContextMenuTesting />
+          <AlertTestingComponent />
+          <RichTextEditor />
         </div>
-        <div className="flex flex-col gap-2 mb-6">
-          <Input />
-          <ReactSelect
-            value={{ value: "5", label: "Tiger" }}
-            onChange={(e) => {
-              console.log("onChange", e);
-            }}
-            // isMulti
-            options={[
-              { value: "1", label: "Dog" },
-              { value: "2", label: "Cat" },
-              { value: "3", label: "Elephant" },
-              { value: "4", label: "Lion" },
-              { value: "5", label: "Tiger" },
-              { value: "6", label: "Bear" },
-              { value: "7", label: "Wolf" },
-              { value: "8", label: "Fox" },
-              { value: "9", label: "Rabbit" },
-              { value: "10", label: "Deer" },
-              { value: "11", label: "Horse" },
-              { value: "12", label: "Cow" },
-              { value: "13", label: "Sheep" },
-              { value: "14", label: "Goat" },
-              { value: "15", label: "Pig" },
-              { value: "16", label: "Monkey" },
-              { value: "17", label: "Giraffe" },
-              { value: "18", label: "Zebra" },
-              { value: "19", label: "Kangaroo" },
-              { value: "20", label: "Panda" },
-            ]}
-          />
-          <Input />
-        </div>
-        {/* context menu testing */}
-        <TextareaContextMenuTesting />
-        <AlertTestingComponent />
-      </div>
-    </main>
+      </main>
+    </TooltipProvider>
   );
 };
 
