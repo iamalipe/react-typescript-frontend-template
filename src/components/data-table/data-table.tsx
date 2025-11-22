@@ -38,6 +38,7 @@ const DataTable = <T,>(props: DataTableProps<T>) => {
                   <TableHead
                     className={cn(["min-w-10", item.classNameHeader])}
                     key={item.id}
+                    data-testid={item.key}
                   >
                     {item.labelRender ? item.labelRender(item) : item.label}
                   </TableHead>

@@ -77,6 +77,7 @@ const ActionControls = <T,>(props: ActionControlsProps<T>) => {
           title="Create New"
           size="icon"
           variant="outline"
+          data-testid="create-new-button"
           onClick={onCreate}
         >
           <Plus />
@@ -85,6 +86,7 @@ const ActionControls = <T,>(props: ActionControlsProps<T>) => {
           title="Refresh"
           variant="outline"
           onClick={onRefresh}
+          data-testid="refresh-button"
         />
         <ColumnsViewControls dataTable={dataTable} />
       </div>

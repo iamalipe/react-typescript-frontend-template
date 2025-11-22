@@ -25,7 +25,7 @@ const TableSortHeader = <T,>(props: TableSortHeaderProps<T>) => {
   const ordered = findSort ? dataTable.sort?.order : undefined;
 
   return (
-    <TableHead key={item.id}>
+    <TableHead key={item.id} data-testid={item.key}>
       <div className="flex items-center space-x-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -33,6 +33,7 @@ const TableSortHeader = <T,>(props: TableSortHeaderProps<T>) => {
               variant="ghost"
               size="sm"
               className="-ml-3 h-8 data-[state=open]:bg-accent"
+              data-testid={`${item.key as string}-sort-button`}
             >
               <span>{item.label}</span>
               {ordered === "asc" ? (
@@ -47,6 +48,7 @@ const TableSortHeader = <T,>(props: TableSortHeaderProps<T>) => {
           <DropdownMenuContent align="start">
             <DropdownMenuItem
               isTableHeader
+              data-testid={`${item.key as string}-sort-asc`}
               className={cn({ "text-primary": ordered === "asc" })}
               onClick={() =>
                 ordered === "asc"
@@ -70,6 +72,7 @@ const TableSortHeader = <T,>(props: TableSortHeaderProps<T>) => {
             <DropdownMenuItem
               isTableHeader
               className={cn({ "text-primary": ordered === "desc" })}
+              data-testid={`${item.key as string}-sort-desc`}
               onClick={() =>
                 ordered === "desc"
                   ? dataTable.onSortingChange?.({
@@ -95,6 +98,7 @@ const TableSortHeader = <T,>(props: TableSortHeaderProps<T>) => {
                 <DropdownMenuItem
                   isTableHeader
                   onClick={() => item.toggleVisibility(false)}
+                  data-testid={`${item.key as string}-hide-column`}
                 >
                   <EyeOff className="h-3.5 w-3.5 text-muted-foreground/70" />
                   Hide

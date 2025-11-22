@@ -129,6 +129,7 @@ const DialogMain = ({ data, state }: ProductDialogProps) => {
                 <Input
                   id={field.name}
                   type="text"
+                  data-testid="name-input"
                   value={field.value as string}
                   name="name"
                   placeholder="Enter name"
@@ -152,6 +153,7 @@ const DialogMain = ({ data, state }: ProductDialogProps) => {
                   type="text"
                   value={field.value as string}
                   name="category"
+                  data-testid="category-input"
                   placeholder="Enter category"
                   className={cn([isError ? "border-destructive" : ""])}
                   onChange={(e) => {
@@ -173,6 +175,7 @@ const DialogMain = ({ data, state }: ProductDialogProps) => {
                   type="number"
                   value={field.value as string}
                   name="price"
+                  data-testid="price-input"
                   placeholder="Enter price"
                   className={cn([isError ? "border-destructive" : ""])}
                   onChange={(e) => {
@@ -194,6 +197,7 @@ const DialogMain = ({ data, state }: ProductDialogProps) => {
                   id={field.name}
                   value={field.value as string}
                   name="description"
+                  data-testid="description-input"
                   placeholder="Enter description"
                   className={cn([isError ? "border-destructive" : ""])}
                   onChange={(e) => {
@@ -207,14 +211,24 @@ const DialogMain = ({ data, state }: ProductDialogProps) => {
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button variant="outline" data-testid="cancel-button">
+                Cancel
+              </Button>
             </DialogClose>
             {state.mode === "CREATE" ? (
-              <Button onClick={form.handleSubmit(onSubmit)} type="submit">
+              <Button
+                data-testid="create-button"
+                onClick={form.handleSubmit(onSubmit)}
+                type="submit"
+              >
                 Create
               </Button>
             ) : (
-              <Button onClick={form.handleSubmit(onUpdate)} type="submit">
+              <Button
+                data-testid="update-button"
+                onClick={form.handleSubmit(onUpdate)}
+                type="submit"
+              >
                 Update
               </Button>
             )}

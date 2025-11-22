@@ -48,6 +48,7 @@ const SearchInput = ({
         <span className="sr-only">Search</span>
       </div>
       <Input
+        data-testid="search-input"
         id={id}
         type="search"
         placeholder={placeholder}
