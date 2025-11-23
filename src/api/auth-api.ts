@@ -101,6 +101,19 @@ export const authAPI = (axiosInstance: AxiosInstance) => ({
       return null;
     }
   },
+  logout: async (config?: AxiosRequestConfig): Promise<null> => {
+    try {
+      // const stringifiedParams = params ? qString(params) : "";
+      const response = await axiosInstance.get<null>(`/auth/logout`, config);
+      return response.data;
+    } catch {
+      // if (axios.isAxiosError(error) && error.response) {
+      //   throw error.response.data as ApiErrorResponse;
+      // }
+      // throw error;
+      return null;
+    }
+  },
   passKeyRegister: async (
     data?: never,
     config?: AxiosRequestConfig

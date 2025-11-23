@@ -8,7 +8,7 @@ import { queryClient } from "@/hooks/use-api-query";
 import { handleFormError } from "@/lib/form";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { PawPrintIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -111,18 +111,22 @@ const Login = () => {
         <div className="flex md:hidden gap-2 justify-between px-2 py-2 items-center">
           <div className="pl-2 pr-2 py-2 flex gap-2 items-center">
             <PawPrintIcon className="w-6 h-6" />
-            <a href="#" className="text-lg font-bold">
+            <Link to="/" className="text-lg font-bold">
               React Template
-            </a>
+            </Link>
           </div>
           <div className="flex gap-2 items-center">
-            <Button variant="outline">Register</Button>
+            <Button variant="outline" asChild>
+              <Link to="/register">Register</Link>
+            </Button>
             <ThemeToggle />
           </div>
         </div>
         <div className="hidden md:flex gap-4 justify-between px-4 py-4">
           <ThemeToggle />
-          <Button variant="outline">Register</Button>
+          <Button variant="outline" asChild>
+            <Link to="/register">Register</Link>
+          </Button>
         </div>
         <div className="flex flex-col md:max-w-xs max-w-sm justify-center mx-auto flex-1 max-md:p-6 max-md:rounded-md">
           <div className="flex flex-col text-center">

@@ -24,11 +24,14 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import apiQuery from "@/hooks/use-api-query";
 import useCurrentUser from "@/hooks/useCurrentUser";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 
 export function NavUser() {
   const currentUser = useCurrentUser();
+  const navigate = useNavigate();
   const { isMobile } = useSidebar();
   const avatar = currentUser?.profileImage || "";
   const fullName = `${currentUser?.firstName || ""} ${
@@ -38,6 +41,14 @@ export function NavUser() {
   const nameShort = `${currentUser?.firstName?.[0] || ""}${
     currentUser?.lastName?.[0] || ""
   }`.toUpperCase();
+
+  const onLogout = async () => {
+    await apiQuery.auth.logoutUser();
+    navigate({ to: "/login" });
+    // Implement logout functionality here
+    toast.success("Logged out successfully");
+  };
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -102,7 +113,7 @@ export function NavUser() {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={onLogout}>
               <IconLogout />
               Log out
             </DropdownMenuItem>
