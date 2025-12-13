@@ -9,7 +9,7 @@ import {
   SidebarGroupContent,
   SidebarMenu,
 } from "@/components/ui/sidebar";
-import { Home, Package, SquareKanban } from "lucide-react";
+import { ComponentIcon, Home, Package, SquareKanban } from "lucide-react";
 import { NavUser } from "./nav-user";
 
 const pageMenus: AdminAppSidebarMenuItemProps[] = [
@@ -28,6 +28,11 @@ const pageMenus: AdminAppSidebarMenuItemProps[] = [
     url: "/admin/kanban",
     icon: <SquareKanban />,
   },
+  {
+    title: "Component View",
+    url: "/admin/component-view",
+    icon: <ComponentIcon />,
+  },
 ];
 
 export function AdminAppSidebar() {
@@ -38,7 +43,6 @@ export function AdminAppSidebar() {
       className="mt-16 mb-12 h-[calc(100svh-7rem)]"
       variant="floating"
       collapsible="icon"
-
     >
       <SidebarContent>
         <SidebarGroup>
