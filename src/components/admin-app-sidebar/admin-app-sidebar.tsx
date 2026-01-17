@@ -4,12 +4,13 @@ import AdminAppSidebarMenuItem, {
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
 } from "@/components/ui/sidebar";
-import { Home, Package, SquareKanban } from "lucide-react";
+import { ComponentIcon, Home, Package, SquareKanban } from "lucide-react";
+import { NavUser } from "./nav-user";
 
 const pageMenus: AdminAppSidebarMenuItemProps[] = [
   {
@@ -27,16 +28,25 @@ const pageMenus: AdminAppSidebarMenuItemProps[] = [
     url: "/admin/kanban",
     icon: <SquareKanban />,
   },
+  {
+    title: "Component View",
+    url: "/admin/component-view",
+    icon: <ComponentIcon />,
+  },
 ];
 
 export function AdminAppSidebar() {
   const items = [...pageMenus];
 
   return (
-    <Sidebar className="mt-16 mb-12 h-[calc(100svh-7rem)]" variant="floating">
+    <Sidebar
+      className="mt-16 mb-12 h-[calc(100svh-7rem)]"
+      variant="floating"
+      collapsible="icon"
+    >
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Pages</SidebarGroupLabel>
+          {/* <SidebarGroupLabel>Pages</SidebarGroupLabel> */}
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -46,6 +56,9 @@ export function AdminAppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser />
+      </SidebarFooter>
     </Sidebar>
   );
 }

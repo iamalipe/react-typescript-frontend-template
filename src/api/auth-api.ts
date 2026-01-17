@@ -25,10 +25,18 @@ export type RegisterReturn = {
 };
 
 export type CurrentUser = {
-  id: string;
+  id?: string;
+  _id: string;
   email: string;
   createdAt: string;
   updatedAt: string;
+  firstName: string;
+  lastName: string;
+  sex?: "male" | "female" | "other";
+  role: "user" | "root";
+  dateOfBirth?: string;
+  jobTitle?: string[];
+  profileImage?: string;
 };
 export type CurrentUserReturn = {
   success: boolean;
@@ -84,6 +92,19 @@ export const authAPI = (axiosInstance: AxiosInstance) => ({
         `/auth/me`,
         config
       );
+      return response.data;
+    } catch {
+      // if (axios.isAxiosError(error) && error.response) {
+      //   throw error.response.data as ApiErrorResponse;
+      // }
+      // throw error;
+      return null;
+    }
+  },
+  logout: async (config?: AxiosRequestConfig): Promise<null> => {
+    try {
+      // const stringifiedParams = params ? qString(params) : "";
+      const response = await axiosInstance.get<null>(`/auth/logout`, config);
       return response.data;
     } catch {
       // if (axios.isAxiosError(error) && error.response) {

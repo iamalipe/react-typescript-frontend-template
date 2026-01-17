@@ -7,7 +7,7 @@ import { zodValidator } from "@tanstack/zod-adapter";
 import { z } from "zod";
 
 export const dialogStateZodSchema = z.object({
-  mode: z.enum(["CREATE", "UPDATE", "VIEW"]).optional(),
+  mode: z.enum(["CREATE", "UPDATE", "VIEW", "VIEW-ALL"]).optional(),
   dialog: z.enum(["Copy-Me", "Product"]).optional(),
   id: z.string().regex(mongoIdRegex, "Invalid id").optional(),
 });

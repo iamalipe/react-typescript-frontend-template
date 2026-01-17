@@ -1,13 +1,21 @@
 import alertPopup from "@/components/alert-popup/alert-popup";
 import PasskeyRegister from "@/components/passkey/passkey-register";
+import { Label, Textarea } from "@/components/ui";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { validateAndStringify } from "@/lib/generic-validation";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { sleep } from "@/lib/utils";
-import { useNavigate } from "@tanstack/react-router";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import ReactSelect from "react-select";
 import { toast } from "sonner";
-import { dialogStateZodSchema } from "../private-admin-route";
+
+import { RichTextEditor } from "@/components/rich-text-editor/rich-text-editor";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
 
 const Home = () => {
   const navigate = useNavigate({ from: "/admin" });
@@ -29,6 +37,156 @@ const Home = () => {
     });
     toast.warning("Event start time cannot be earlier than 8am");
   };
+
+  return (
+    <TooltipProvider>
+      <main className="flex-1 overflow-auto flex flex-col p-2 md:p-4 gap-2 md:gap-4">
+        <div>
+          <h1>Private Home Page</h1>
+          <div className="flex gap-2 mb-6">
+            <PasskeyRegister />
+            <Button onClick={onToastTest}>Toast Test</Button>
+          </div>
+          <div className="flex flex-col gap-2 mb-6">
+            <Input />
+            <ReactSelect
+              value={{ value: "5", label: "Tiger" }}
+              onChange={(e) => {
+                console.log("onChange", e);
+              }}
+              // isMulti
+              options={[
+                { value: "1", label: "Dog" },
+                { value: "2", label: "Cat" },
+                { value: "3", label: "Elephant" },
+                { value: "4", label: "Lion" },
+                { value: "5", label: "Tiger" },
+                { value: "6", label: "Bear" },
+                { value: "7", label: "Wolf" },
+                { value: "8", label: "Fox" },
+                { value: "9", label: "Rabbit" },
+                { value: "10", label: "Deer" },
+                { value: "11", label: "Horse" },
+                { value: "12", label: "Cow" },
+                { value: "13", label: "Sheep" },
+                { value: "14", label: "Goat" },
+                { value: "15", label: "Pig" },
+                { value: "16", label: "Monkey" },
+                { value: "17", label: "Giraffe" },
+                { value: "18", label: "Zebra" },
+                { value: "19", label: "Kangaroo" },
+                { value: "20", label: "Panda" },
+              ]}
+            />
+            <Input />
+          </div>
+          {/* context menu testing */}
+          <TextareaContextMenuTesting />
+          <AlertTestingComponent />
+          <RichTextEditor />
+        </div>
+      </main>
+    </TooltipProvider>
+  );
+};
+
+export default Home;
+
+const TextareaContextMenuTesting = () => {
+  const [value, setValue] = useState("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const cursorPositionRef = useRef<number>(0);
+
+  const handleInsertText = (textToInsert: string) => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const start = cursorPositionRef.current;
+    const end = cursorPositionRef.current;
+    const beforeText = value.substring(0, start);
+    const afterText = value.substring(end);
+    const newValue = beforeText + textToInsert + afterText;
+
+    setValue(newValue);
+
+    // Set cursor position after the inserted text
+    setTimeout(() => {
+      const newCursorPosition = start + textToInsert.length;
+      textarea.setSelectionRange(newCursorPosition, newCursorPosition);
+      textarea.focus();
+    }, 0);
+  };
+
+  const handleContextMenuOpen = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      cursorPositionRef.current = textarea.selectionStart;
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-4">
+      <ContextMenu
+        onOpenChange={(open) => {
+          if (open) {
+            handleContextMenuOpen();
+          }
+        }}
+      >
+        <ContextMenuTrigger asChild>
+          <Textarea
+            ref={textareaRef}
+            placeholder="Context Menu Testing"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onSelect={(e) => {
+              const target = e.target as HTMLTextAreaElement;
+              cursorPositionRef.current = target.selectionStart;
+            }}
+          />
+        </ContextMenuTrigger>
+        <ContextMenuContent>
+          <ContextMenuItem onClick={() => handleInsertText("Hello")}>
+            Insert Hello
+          </ContextMenuItem>
+          <ContextMenuItem onClick={() => handleInsertText("World")}>
+            Insert World
+          </ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
+    </div>
+  );
+};
+
+// AlertTestingComponent
+
+const CustomAlertFields = forwardRef((_props, ref) => {
+  const [input, setInput] = useState("");
+  const [input2, setInput2] = useState("");
+
+  useImperativeHandle(ref, () => ({
+    getValues: () => ({ input, input2 }),
+  }));
+
+  return (
+    <div className="flex flex-col gap-2">
+      <Label className="mb-2 block">Reason for this action</Label>
+      <Input
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Custom Input Field"
+      />
+      <Label className="mb-2 block">Extra info</Label>
+      <Input
+        value={input2}
+        onChange={(e) => setInput2(e.target.value)}
+        placeholder="Another field"
+      />
+    </div>
+  );
+});
+
+const AlertTestingComponent = () => {
   const onAlertTest = async () => {
     const res = await alertPopup.show({
       title: "Test Alert",
@@ -38,67 +196,25 @@ const Home = () => {
     });
     console.log("res", res);
   };
-
-  const onProductCreate = async () => {
-    const ds = validateAndStringify(dialogStateZodSchema, {
-      dialog: "Product",
-      mode: "CREATE",
-    });
-    if (!ds) return;
-    navigate({
-      search: (prev) => ({
-        ...prev,
-        ds: ds,
-      }),
-    });
+  const onAlertDelete = async () => {
+    const res = await alertPopup.delete();
+    console.log("res", res);
   };
-
+  const onAlertInfo = async () => {
+    const res = await alertPopup.show({
+      title: "Custom Element Test Alert",
+      description: "This is a test alert message.",
+      okText: "OK",
+      cancelText: "Cancel",
+      customElement: <CustomAlertFields />,
+    });
+    console.log("res", res);
+  };
   return (
-    <main className="flex-1 overflow-auto flex flex-col p-2 md:p-4 gap-2 md:gap-4">
-      <div>
-        <h1>Private Home Page</h1>
-        <div className="flex gap-2 mb-6">
-          <PasskeyRegister />
-          <Button onClick={onToastTest}>Toast Test</Button>
-          <Button onClick={onAlertTest}>Alert Test</Button>
-        </div>
-        <div className="flex flex-col gap-2 mb-6">
-          <Input />
-          <ReactSelect
-            value={{ value: "5", label: "Tiger" }}
-            onChange={(e) => {
-              console.log("onChange", e);
-            }}
-            // isMulti
-            options={[
-              { value: "1", label: "Dog" },
-              { value: "2", label: "Cat" },
-              { value: "3", label: "Elephant" },
-              { value: "4", label: "Lion" },
-              { value: "5", label: "Tiger" },
-              { value: "6", label: "Bear" },
-              { value: "7", label: "Wolf" },
-              { value: "8", label: "Fox" },
-              { value: "9", label: "Rabbit" },
-              { value: "10", label: "Deer" },
-              { value: "11", label: "Horse" },
-              { value: "12", label: "Cow" },
-              { value: "13", label: "Sheep" },
-              { value: "14", label: "Goat" },
-              { value: "15", label: "Pig" },
-              { value: "16", label: "Monkey" },
-              { value: "17", label: "Giraffe" },
-              { value: "18", label: "Zebra" },
-              { value: "19", label: "Kangaroo" },
-              { value: "20", label: "Panda" },
-            ]}
-          />
-          <Input />
-          <Button onClick={onProductCreate}>Open add Product Dialog</Button>
-        </div>
-      </div>
-    </main>
+    <div className="flex gap-4 mt-4">
+      <Button onClick={onAlertTest}>Alert Confirm</Button>
+      <Button onClick={onAlertDelete}>Alert Delete</Button>
+      <Button onClick={onAlertInfo}>Alert Info</Button>
+    </div>
   );
 };
-
-export default Home;

@@ -1,4 +1,4 @@
-import { useQuery, queryOptions, QueryClient } from "@tanstack/react-query";
+import { QueryClient, queryOptions, useQuery } from "@tanstack/react-query";
 
 import api from "@/api/api";
 
@@ -15,4 +15,11 @@ export const authQuery = (queryClient: QueryClient) => ({
   getCurrentUserOptions: getCurrentUserOptions,
   getCurrentUser: () => queryClient.fetchQuery(getCurrentUserOptions()),
   useGetCurrentUser: () => useQuery(getCurrentUserOptions()),
+
+  logoutUser: async () => {
+    const result = await api.auth.logout();
+    queryClient.invalidateQueries({ queryKey: currentUserQueryKey });
+    queryClient.invalidateQueries();
+    return result;
+  },
 });

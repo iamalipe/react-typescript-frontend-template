@@ -1,21 +1,15 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { GalleryVerticalEnd } from "lucide-react";
-
 import api from "@/api/api";
-import PasskeyLogin from "@/components/passkey/passkey-login";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { AsyncButton } from "@/components/custom/async-button";
+import FormController from "@/components/form/form-controller";
+import ThemeToggle from "@/components/theme-toggle/theme-toggle";
+import { Button, Input } from "@/components/ui";
 import { currentUserQueryKey } from "@/hooks/api-query/auth-query";
 import { queryClient } from "@/hooks/use-api-query";
+import { handleFormError } from "@/lib/form";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { PawPrintIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -27,13 +21,15 @@ const formSchema = z.object({
 export type FormSchemaType = z.infer<typeof formSchema>;
 
 // Define the search params type
-export type LoginSearchParams = {
+export type SearchParams = {
   redirect?: string;
 };
 
 const Login = () => {
   const navigate = useNavigate();
-  const { redirect } = useSearch({ from: "/_auth/login" }) as LoginSearchParams;
+  const { redirect } = useSearch({
+    from: "/_auth/login",
+  }) as SearchParams;
 
   const defaultValues: Partial<FormSchemaType> = {
     email: "sydney.shannon.244535@yopmail.com",
@@ -43,12 +39,21 @@ const Login = () => {
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues,
-    // mode: "onBlur",
+    // mode: "onChange",
   });
 
   const onSubmit = async (data: FormSchemaType) => {
-    const res = await api.auth.login(data);
-    if (res.success) {
+    try {
+      const res = await api.auth.login(data);
+      if (!res.success) {
+        handleFormError({
+          form,
+          error: res,
+          defaultMessage: "Login failed, please try again.",
+        });
+        return;
+      }
+      form.reset();
       // await apiQuery.auth.getCurrentUser();
       queryClient.invalidateQueries({ queryKey: currentUserQueryKey });
       // If there's a redirect URL, navigate to it, otherwise go to the home page
@@ -63,98 +68,156 @@ const Login = () => {
       } else {
         navigate({ to: "/admin" });
       }
-      form.reset();
+    } catch (error) {
+      handleFormError({
+        form,
+        error,
+        defaultMessage: "Login failed, please try again.",
+      });
     }
   };
 
   return (
-    <main className="w-full max-w-sm">
-      <div className="flex flex-col gap-6">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col items-center gap-2">
-                <a
-                  href="#"
-                  className="flex flex-col items-center gap-2 font-medium"
-                >
-                  <div className="flex h-8 w-8 items-center justify-center rounded-md">
-                    <GalleryVerticalEnd className="size-6" />
-                  </div>
-                  <span className="sr-only">Simple Music.</span>
-                </a>
-                <h1 className="text-xl font-bold">Welcome to Simple Music.</h1>
-                <div className="text-center text-sm">
-                  Don&apos;t have an account?{" "}
-                  <a href="#" className="underline underline-offset-4">
-                    Sign up
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-6">
-                <FormField
-                  control={form.control}
+    <main className="h-full-x overflow-hidden flex">
+      {/* Left side */}
+      <div className="flex-1 relative hidden md:flex flex-col justify-between">
+        <div className="pl-5 pr-8 py-4 flex gap-4 items-center">
+          <PawPrintIcon className="w-8 h-8" />
+          <a href="#" className="text-2xl font-bold">
+            React Template
+          </a>
+        </div>
+        <div className="md:px-8 md:py-4 px-4 py-2 md:flex relative hidden">
+          <div className="absolute top-0 left-0 w-full h-full backdrop-blur-sm z-[-1]"></div>
+          <p className="text-white text-xs md:text-base">
+            “This library has saved me countless hours of work and helped me
+            deliver stunning designs to my clients faster than ever before.” -
+            Abhiseck
+          </p>
+        </div>
+        <img
+          src="/auth-bg.jpg"
+          alt="Just an"
+          className="absolute dark:hidden -z-10 top-0 left-0 w-full h-full object-cover"
+        />
+        <img
+          src="/auth-bg-dark.png"
+          alt="Just an"
+          className="absolute dark:block hidden -z-10 top-0 left-0 w-full h-full object-cover"
+        />
+      </div>
+      {/* Right side */}
+      <div className="flex-1 flex bg-background flex-col">
+        <div className="flex md:hidden gap-2 justify-between px-2 py-2 items-center">
+          <div className="pl-2 pr-2 py-2 flex gap-2 items-center">
+            <PawPrintIcon className="w-6 h-6" />
+            <Link to="/" className="text-lg font-bold">
+              React Template
+            </Link>
+          </div>
+          <div className="flex gap-2 items-center">
+            <Button variant="outline" asChild>
+              <Link to="/register">Register</Link>
+            </Button>
+            <ThemeToggle />
+          </div>
+        </div>
+        <div className="hidden md:flex gap-4 justify-between px-4 py-4">
+          <ThemeToggle />
+          <Button variant="outline" asChild>
+            <Link to="/register">Register</Link>
+          </Button>
+        </div>
+        <div className="flex flex-col md:max-w-xs max-w-sm justify-center mx-auto flex-1 max-md:p-6 max-md:rounded-md">
+          <div className="flex flex-col text-center">
+            <span className="text-xl font-bold">Welcome to React Template</span>
+            <p className="text-sm text-muted-foreground">
+              Enter your details below to login
+            </p>
+          </div>
+          {/* Login form */}
+          <form
+            className="grid grid-cols-1 gap-4 mt-6"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
+            <FormController
+              form={form}
+              name="email"
+              label="Email"
+              render={({ field, isError, ariaDescribedby }) => (
+                <Input
+                  id={field.name}
+                  value={field.value}
+                  type="email"
                   name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter your email" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  placeholder="John@example.com"
+                  className={cn([isError ? "border-destructive" : ""])}
+                  onChange={(e) => {
+                    field.onChange(e.target.value);
+                  }}
+                  aria-invalid={isError}
+                  aria-describedby={ariaDescribedby}
                 />
-                <FormField
-                  control={form.control}
+              )}
+            />
+            <FormController
+              form={form}
+              name="password"
+              label="Password"
+              render={({ field, isError, ariaDescribedby }) => (
+                <Input
+                  id={field.name}
+                  value={field.value}
+                  type="password"
                   name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter your password" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  placeholder="Enter your password"
+                  className={cn([isError ? "border-destructive" : ""])}
+                  onChange={(e) => {
+                    field.onChange(e.target.value);
+                  }}
+                  aria-invalid={isError}
+                  aria-describedby={ariaDescribedby}
                 />
-                <Button type="submit" className="w-full">
-                  Login
-                </Button>
-              </div>
-              <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                <span className="relative z-10 bg-background px-2 text-muted-foreground">
-                  Or
-                </span>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Button variant="outline" className="w-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                      d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  Continue with Apple
-                </Button>
-                <Button variant="outline" className="w-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                      d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  Continue with Google
-                </Button>
-                <PasskeyLogin />
-              </div>
+              )}
+            />
+            {form.formState.errors.root && (
+              <p className="text-xs text-destructive mt-1">
+                {form.formState.errors.root.message}
+              </p>
+            )}
+            <div>
+              <AsyncButton
+                loading={form.formState.isSubmitting}
+                className="w-full"
+                type="submit"
+                loadingText="Logging in..."
+              >
+                Login
+              </AsyncButton>
+            </div>
+            <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
+              <span className="relative z-10 px-2 bg-background">Or</span>
+            </div>
+            <div className="grid gap-2 grid-cols-2">
+              <Button variant="outline" className="w-full">
+                Github
+              </Button>
+              <Button variant="outline" className="w-full">
+                Google
+              </Button>
+              <Button variant="outline" className="w-full">
+                Passkey
+              </Button>
+              <Button variant="outline" className="w-full">
+                Magic Link
+              </Button>
+            </div>
+            <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary  ">
+              By clicking continue, you agree to our{" "}
+              <a href="#">Terms of Service</a> and{" "}
+              <a href="#">Privacy Policy</a>.
             </div>
           </form>
-        </Form>
-        <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary  ">
-          By clicking continue, you agree to our{" "}
-          <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
         </div>
       </div>
     </main>
