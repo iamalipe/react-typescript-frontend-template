@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/context-menu";
 
 const Home = () => {
-  const navigate = useNavigate({ from: "/admin" });
   const onToastTest = () => {
     toast("This is a test toast message!");
     toast("Event has been created", {
