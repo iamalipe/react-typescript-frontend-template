@@ -15,7 +15,6 @@ import privateAdminRoute from "@/routes/private-admin/private-admin-route";
 import authRoute from "@/routes/auth/auth-route";
 import loginRoute from "@/routes/auth/login/login-route";
 import registerRoute from "@/routes/auth/register/register-route";
-import aiChatRoute from "./private-admin/ai-chat/ai-chat-route";
 import componentViewRoute from "./private-admin/component-view/component-view-route";
 import kanbanRoute from "./private-admin/kanban/kanban-route";
 import productRoute from "./private-admin/product/product-route";
@@ -43,7 +42,6 @@ export const routeTree = rootRoute.addChildren([
     productRoute,
     profileRoute,
     componentViewRoute,
-    aiChatRoute,
   ]),
   authRoute.addChildren([loginRoute, registerRoute]),
 ]);
