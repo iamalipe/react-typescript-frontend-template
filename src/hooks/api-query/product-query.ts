@@ -1,4 +1,5 @@
 import {
+  keepPreviousData,
   queryOptions,
   useMutation,
   useQuery,
@@ -19,6 +20,7 @@ const getAllOptions = (params?: ApiProductGetAllParams) =>
   queryOptions({
     queryKey: [...productQueryKey, params],
     queryFn: () => api.product.getAll(params),
+    placeholderData: keepPreviousData,
   });
 
 const getOptions = (id: string) =>

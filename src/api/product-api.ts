@@ -1,5 +1,5 @@
 // project-api.ts
-import { qString, sleep } from "@/lib/utils";
+import { qString } from "@/lib/utils";
 import { ApiNormalResponse, TableConfigType } from "@/types/generic-type";
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
 import axios from "axios";
@@ -45,7 +45,6 @@ export const productAPI = (axiosInstance: AxiosInstance) => ({
     config?: AxiosRequestConfig,
   ): Promise<ApiProductGetAll> => {
     try {
-      await sleep(10000);
       const stringifiedParams = params ? qString(params) : "";
       const response = await axiosInstance.get<ApiProductGetAll>(
         `/product?${stringifiedParams}`,
