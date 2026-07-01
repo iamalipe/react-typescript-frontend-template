@@ -9,13 +9,7 @@ import {
   SidebarGroupContent,
   SidebarMenu,
 } from "@/components/ui/sidebar";
-import {
-  ComponentIcon,
-  Home,
-  MessageCircleIcon,
-  Package,
-  SquareKanban,
-} from "lucide-react";
+import { Home, Package, SquareKanban } from "lucide-react";
 import { NavUser } from "./nav-user";
 
 const pageMenus: AdminAppSidebarMenuItemProps[] = [
@@ -33,16 +27,6 @@ const pageMenus: AdminAppSidebarMenuItemProps[] = [
     title: "Kanban",
     url: "/admin/kanban",
     icon: <SquareKanban />,
-  },
-  {
-    title: "Component View",
-    url: "/admin/component-view",
-    icon: <ComponentIcon />,
-  },
-  {
-    title: "AI Chat",
-    url: "/admin/ai-chat",
-    icon: <MessageCircleIcon />,
   },
 ];
 

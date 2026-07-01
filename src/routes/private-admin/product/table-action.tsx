@@ -176,8 +176,8 @@ export const TableRowsSelect = ({
     type === "header" && selectedRows.length > 0
       ? "indeterminate"
       : data
-      ? isRowSelect(data._id)
-      : false;
+        ? isRowSelect(data._id)
+        : false;
 
   const onCheckedChange = (checked: CheckedState) => {
     console.log("checked", checked);
