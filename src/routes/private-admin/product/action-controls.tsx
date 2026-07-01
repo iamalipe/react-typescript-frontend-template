@@ -1,3 +1,4 @@
+import { ApiProductGetAll } from "@/api/product-api";
 import { AsyncRefreshButton } from "@/components/custom/async-button";
 import ColumnsViewControls from "@/components/data-table/columns-view-controls";
 import SearchInput from "@/components/data-table/search-input";
@@ -5,31 +6,29 @@ import { Button } from "@/components/ui";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { DataTable } from "@/hooks/useDataTable";
 import { validateAndStringify } from "@/lib/generic-validation";
-import { TableConfigType } from "@/types/generic-type";
-import {
-  getRouteApi,
-  useNavigate,
-  useRouter,
-  useSearch,
-} from "@tanstack/react-router";
+import { ApiNormalResponse, TableConfigType } from "@/types/generic-type";
+import { UseQueryResult } from "@tanstack/react-query";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 import { dialogStateZodSchema } from "../private-admin-route";
 
 export type ActionControlsProps<T> = {
   dataTable: DataTable<T>;
+  rawQuery: UseQueryResult<ApiProductGetAll, ApiNormalResponse | Error>;
 };
-const routeApi = getRouteApi("/admin/product");
+
 const ActionControls = <T,>(props: ActionControlsProps<T>) => {
-  const { dataTable } = props;
-  const routeData = routeApi.useLoaderData();
+  const { dataTable, rawQuery } = props;
+  const queryData = rawQuery.data;
+  if (!queryData) throw Error("Something wrong");
+
   const navigate = useNavigate({ from: "/admin/product" });
-  const router = useRouter();
   const searchParam = useSearch({
     from: "/admin/product",
   });
 
   const onRefresh = async () => {
-    await router.invalidate({ sync: true });
+    await rawQuery.refetch();
   };
 
   const onCreate = async () => {
@@ -68,7 +67,7 @@ const ActionControls = <T,>(props: ActionControlsProps<T>) => {
     });
   };
 
-  const tableConfig: TableConfigType = routeData.data.config || {
+  const tableConfig: TableConfigType = queryData.config || {
     search: true,
     searchPlaceholder: "Search...",
   };

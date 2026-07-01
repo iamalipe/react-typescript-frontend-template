@@ -24,15 +24,8 @@ export const getAllZodSchema = z.object({
 const productRoute = createRoute({
   getParentRoute: () => privateAdminRoute,
   path: "/product",
-  component: lazyRouteComponent(() => import("./product")),
+  component: lazyRouteComponent(() => import("./product-root")),
   loaderDeps: ({ search }) => createTypeSafeLoaderDeps(getAllZodSchema, search),
-  loader: async ({ context: { apiQuery }, deps }) => {
-    const data = await apiQuery.product.getAll(deps);
-    return {
-      data: data,
-      crumb: "Product",
-    };
-  },
   validateSearch: zodValidator(getAllZodSchema),
   errorComponent: ErrorPage,
   notFoundComponent: PageNotFound,

@@ -57,3 +57,20 @@ export function getRandomInt(min: number, max: number): number {
 }
 
 export const mongoIdRegex = /^[0-9a-fA-F]{24}$/;
+
+export function deleteKeysFromObject<T extends object, K extends keyof T>(
+  obj: T,
+  keys: K[],
+): Omit<T, K> {
+  // Create a shallow copy to prevent mutation
+  const result = { ...obj };
+
+  for (const key of keys) {
+    // Only attempt deletion if the key actually exists in the object
+    if (Object.prototype.hasOwnProperty.call(result, key)) {
+      delete result[key];
+    }
+  }
+
+  return result as Omit<T, K>;
+}
