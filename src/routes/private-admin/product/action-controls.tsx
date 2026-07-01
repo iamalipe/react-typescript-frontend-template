@@ -74,7 +74,7 @@ const ActionControls = <T,>(props: ActionControlsProps<T>) => {
 
   return (
     <div className="flex flex-none justify-between">
-      <div className="flex gap-2 md:gap-4">
+      <div className="flex gap-2">
         <SidebarTrigger variant="outline" />
         {tableConfig.search && (
           <SearchInput
@@ -84,7 +84,7 @@ const ActionControls = <T,>(props: ActionControlsProps<T>) => {
           />
         )}
       </div>
-      <div className="flex gap-2 md:gap-4">
+      <div className="flex gap-2">
         <Button title="All Products" variant="outline" onClick={onAllProducts}>
           All Products
         </Button>

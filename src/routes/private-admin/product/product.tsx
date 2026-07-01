@@ -46,7 +46,7 @@ const Product = ({ rawQuery }: ProductProps) => {
 
   return (
     <>
-      <main className="flex-1 overflow-hidden flex flex-col p-2 md:p-4 gap-2 md:gap-4">
+      <main className="flex-1 overflow-hidden flex flex-col p-2 pl-0 gap-2">
         <ActionControls rawQuery={rawQuery} dataTable={dataTable} />
         <DataTable
           dataTable={dataTable}

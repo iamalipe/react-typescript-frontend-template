@@ -10,23 +10,16 @@ import {
 
 const ProductSkeleton = () => {
   return (
-    <main className="flex-1 overflow-hidden flex flex-col p-2 md:p-4 gap-2 md:gap-4 animate-pulse">
-      {/* Breadcrumb Skeleton */}
-      <div className="flex items-center space-x-2 flex-none">
-        <Skeleton className="h-4 w-12" />
-        <span className="text-muted-foreground">/</span>
-        <Skeleton className="h-4 w-16" />
-      </div>
-
+    <main className="flex-1 overflow-hidden flex flex-col p-2 gap-2 animate-pulse">
       {/* ActionControls Skeleton */}
       <div className="flex flex-none justify-between items-center">
         {/* Left Side: Sidebar Trigger and Search */}
-        <div className="flex items-center gap-2 md:gap-4">
+        <div className="flex items-center gap-2">
           <Skeleton className="h-10 w-10 border rounded-md" />
           <Skeleton className="h-10 w-48 md:w-64 border rounded-md" />
         </div>
         {/* Right Side: Action Buttons */}
-        <div className="flex items-center gap-2 md:gap-4">
+        <div className="flex items-center gap-2">
           <Skeleton className="h-10 w-24 border rounded-md" />
           <Skeleton className="h-10 w-10 border rounded-md" />
           <Skeleton className="h-10 w-10 border rounded-md" />
@@ -79,7 +72,7 @@ const ProductSkeleton = () => {
       </Table>
 
       {/* DataTable Mobile Skeleton */}
-      <div className="flex flex-col md:hidden relative w-full overflow-auto flex-1 scrollbar-thin gap-4">
+      <div className="flex flex-col md:hidden relative w-full overflow-auto flex-1 scrollbar-thin gap-2">
         {Array.from({ length: 5 }).map((_, rowIndex) => (
           <div
             key={rowIndex}

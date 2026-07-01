@@ -1,5 +1,5 @@
 // project-api.ts
-import { qString } from "@/lib/utils";
+import { qString, sleep } from "@/lib/utils";
 import { ApiNormalResponse, TableConfigType } from "@/types/generic-type";
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
 import axios from "axios";
@@ -42,13 +42,14 @@ export type ApiProductGetAllParams = {
 export const productAPI = (axiosInstance: AxiosInstance) => ({
   getAll: async (
     params?: ApiProductGetAllParams,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<ApiProductGetAll> => {
     try {
+      await sleep(10000);
       const stringifiedParams = params ? qString(params) : "";
       const response = await axiosInstance.get<ApiProductGetAll>(
         `/product?${stringifiedParams}`,
-        config
+        config,
       );
       return response.data;
     } catch (error) {
@@ -61,12 +62,12 @@ export const productAPI = (axiosInstance: AxiosInstance) => ({
 
   get: async (
     id: string,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<ApiProductGet> => {
     try {
       const response = await axiosInstance.get<ApiProductGet>(
         `/product/${id}`,
-        config
+        config,
       );
       return response.data;
     } catch (error) {
@@ -79,13 +80,13 @@ export const productAPI = (axiosInstance: AxiosInstance) => ({
 
   create: async (
     data: ApiProductCreate,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<ApiProductGet> => {
     try {
       const response = await axiosInstance.post<ApiProductGet>(
         "/product",
         data,
-        config
+        config,
       );
       return response.data;
     } catch (error) {
@@ -99,13 +100,13 @@ export const productAPI = (axiosInstance: AxiosInstance) => ({
   update: async (
     id: string,
     data: ApiProductUpdate,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<ApiProductGet> => {
     try {
       const response = await axiosInstance.put<ApiProductGet>(
         `/product/${id}`,
         data,
-        config
+        config,
       );
       return response.data;
     } catch (error) {
@@ -118,12 +119,12 @@ export const productAPI = (axiosInstance: AxiosInstance) => ({
 
   delete: async (
     id: string,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<ApiNormalResponse> => {
     try {
       const response = await axiosInstance.delete<ApiNormalResponse>(
         `/product/${id}`,
-        config
+        config,
       );
       return response.data;
     } catch (error) {
