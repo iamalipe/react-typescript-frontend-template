@@ -13,11 +13,11 @@ import { nanoid } from "nanoid";
 const PageBreadcrumb = () => {
   const matches = useMatches();
 
-  const matchesWithCrumbs = matches.filter((match) =>
-    isMatch(match, "loaderData.crumb")
+  const matchesWithCrumbs = matches.filter((match: any) =>
+    isMatch(match, "loaderData.crumb" as any)
   );
 
-  const items = matchesWithCrumbs.map(({ pathname, loaderData }) => {
+  const items = matchesWithCrumbs.map(({ pathname, loaderData }: any) => {
     return {
       href: pathname,
       label: loaderData?.crumb,
