@@ -4,7 +4,6 @@ import axios from "axios";
 // import all api
 import { authAPI } from "./auth-api";
 import { blogAPI } from "./blog-api";
-import { copyMeAPI } from "./copy-me-api";
 import { productAPI } from "./product-api";
 
 // Axios instance configuration
@@ -17,7 +16,6 @@ export const axiosInstance = axios.create({
 // Export all APIs
 const api = {
   auth: authAPI(axiosInstance),
-  copyMe: copyMeAPI(axiosInstance),
   product: productAPI(axiosInstance),
   blog: blogAPI(axiosInstance),
 };
