@@ -1,11 +1,11 @@
-import { useRouterState } from "@tanstack/react-router";
+import { useRouterState } from "@tanstack/react-router"
 
 const useIsRouteActionDisabled = () => {
-  const routerState = useRouterState();
+  const routerState = useRouterState()
 
-  const isDisabled = routerState.isLoading;
+  const isDisabled = routerState.isLoading
 
-  return isDisabled;
-};
+  return isDisabled
+}
 
-export default useIsRouteActionDisabled;
+export default useIsRouteActionDisabled

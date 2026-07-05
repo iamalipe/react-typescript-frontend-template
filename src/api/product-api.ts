@@ -1,6 +1,6 @@
 // project-api.ts
-import { qString } from "@/lib/utils";
-import { ApiNormalResponse, TableConfigType } from "@/types/generic-type";
+import { qString, sleep } from "@/lib/utils";
+import type { ApiNormalResponse, TableConfigType } from "@/types/generic-type";
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
 import axios from "axios";
 
@@ -50,6 +50,7 @@ export const productAPI = (axiosInstance: AxiosInstance) => ({
         `/product?${stringifiedParams}`,
         config,
       );
+      await sleep(5000)
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {

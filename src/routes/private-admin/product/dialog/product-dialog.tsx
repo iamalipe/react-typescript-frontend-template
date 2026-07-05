@@ -1,6 +1,6 @@
-import { ProductType } from "@/api/product-api";
+import type { ProductType } from "@/api/product-api";
 import FormController from "@/components/form/form-controller";
-import { Button, Textarea } from "@/components/ui";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -11,14 +11,15 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import apiQuery from "@/hooks/use-api-query";
 import useQueryLoadingState from "@/hooks/use-query-loading-state";
 import { handleFormError } from "@/lib/form";
 import { cn } from "@/lib/utils";
-import { DialogStateType } from "@/routes/private-admin/private-admin-route";
+import type { DialogStateType } from "@/routes/private-admin/private-admin-route";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import DialogSkeleton from "./dialog-skeleton";
@@ -60,7 +61,7 @@ const DialogMain = ({ data, state }: ProductDialogProps) => {
   };
 
   const form = useForm<FormSchemaType>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema) as unknown as Resolver<FormSchemaType>,
     defaultValues: defaultValues,
     mode: "onChange",
   });

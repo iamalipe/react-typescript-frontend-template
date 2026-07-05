@@ -2,7 +2,8 @@ import api from "@/api/api";
 import { AsyncButton } from "@/components/custom/async-button";
 import FormController from "@/components/form/form-controller";
 import ThemeToggle from "@/components/theme-toggle/theme-toggle";
-import { Button, Input } from "@/components/ui";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { currentUserQueryKey } from "@/hooks/api-query/auth-query";
 import { queryClient } from "@/hooks/use-api-query";
 import { handleFormError } from "@/lib/form";
@@ -60,6 +61,7 @@ const Login = () => {
       if (redirect) {
         // Handle external URLs or relative paths
         if (redirect.startsWith("http")) {
+          // eslint-disable-next-line react-hooks/immutability
           window.location.href = redirect;
         } else {
           // For internal app routes

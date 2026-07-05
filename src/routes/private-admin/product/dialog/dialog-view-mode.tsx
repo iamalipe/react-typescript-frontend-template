@@ -1,5 +1,5 @@
+import { Button } from "@/components/ui/button";
 import {
-  Button,
   Dialog,
   DialogClose,
   DialogContent,
@@ -7,11 +7,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui";
+} from "@/components/ui/dialog";
 import { validateAndStringify } from "@/lib/generic-validation";
 import { useNavigate } from "@tanstack/react-router";
 import { dialogStateZodSchema } from "../../private-admin-route";
-import { ProductDialogProps } from "./product-dialog";
+import type { ProductDialogProps } from "./product-dialog";
 
 const DialogViewMode = ({ data }: ProductDialogProps) => {
   const navigate = useNavigate();

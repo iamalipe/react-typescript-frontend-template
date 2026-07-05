@@ -1,5 +1,5 @@
-import { Skeleton } from "@/components/ui";
 import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { getRandomInt } from "@/lib/utils";
 
 export function BlogCardSkeleton() {

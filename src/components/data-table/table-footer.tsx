@@ -1,9 +1,9 @@
-import { DataTable } from "@/hooks/useDataTable";
+import type { DataTableType } from "@/hooks/useDataTable";
 import TableLimit from "./table-limit";
 import TablePagination from "./table-pagination";
 
 export type TableFooterProps<T> = {
-  dataTable: DataTable<T>;
+  dataTable: DataTableType<T>;
 };
 const TableFooter = <T,>(props: TableFooterProps<T>) => {
   const { dataTable } = props;

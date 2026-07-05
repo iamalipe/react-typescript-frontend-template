@@ -4,7 +4,6 @@ import ErrorPage from "@/components/general/error-page";
 import LoadingElement from "@/components/general/loading-element";
 import PageNotFound from "@/components/general/page-not-found";
 import privateAdminRoute from "@/routes/private-admin/private-admin-route";
-import { zodValidator } from "@tanstack/zod-adapter";
 
 import { createTypeSafeLoaderDeps } from "@/lib/generic-validation";
 import { z } from "zod";
@@ -26,7 +25,7 @@ const productRoute = createRoute({
   path: "/product",
   component: lazyRouteComponent(() => import("./product-root")),
   loaderDeps: ({ search }) => createTypeSafeLoaderDeps(getAllZodSchema, search),
-  validateSearch: zodValidator(getAllZodSchema),
+  validateSearch: getAllZodSchema,
   errorComponent: ErrorPage,
   notFoundComponent: PageNotFound,
   pendingComponent: LoadingElement,

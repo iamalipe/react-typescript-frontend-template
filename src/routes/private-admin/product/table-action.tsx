@@ -1,6 +1,7 @@
-import { ProductType } from "@/api/product-api";
+import type { ProductType } from "@/api/product-api";
 import alertPopup from "@/components/alert-popup/alert-popup";
-import { Button, Checkbox } from "@/components/ui";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   ContextMenuContent,
   ContextMenuItem,
@@ -19,7 +20,7 @@ import apiQuery from "@/hooks/use-api-query";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { validateAndStringify } from "@/lib/generic-validation";
 import { useTableRowsSelect } from "@/store/use-table-columns-select-store";
-import { CheckedState } from "@radix-ui/react-checkbox";
+import type { CheckedState } from "@radix-ui/react-checkbox";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 import { Menu, XIcon } from "lucide-react";
 import { useEffect } from "react";
@@ -38,7 +39,7 @@ export const TableAction = ({ data }: { data: ProductType }) => {
     });
     if (!ds) return;
     navigate({
-      search: (prev) => ({
+      search: (prev:any) => ({
         ...prev,
         ds: ds,
       }),
@@ -52,7 +53,7 @@ export const TableAction = ({ data }: { data: ProductType }) => {
     });
     if (!ds) return;
     navigate({
-      search: (prev) => ({
+      search: (prev:any) => ({
         ...prev,
         ds: ds,
       }),
@@ -117,7 +118,7 @@ export const TableActionContextMenu = ({ data }: { data: ProductType }) => {
     });
     if (!ds) return;
     navigate({
-      search: (prev) => ({
+      search: (prev:any) => ({
         ...prev,
         ds: ds,
       }),
@@ -131,7 +132,7 @@ export const TableActionContextMenu = ({ data }: { data: ProductType }) => {
     });
     if (!ds) return;
     navigate({
-      search: (prev) => ({
+      search: (prev:any) => ({
         ...prev,
         ds: ds,
       }),
@@ -227,7 +228,7 @@ export const TableSelectAction = () => {
           onClick={onClearSelection}
           title="Clear selection"
           variant="outline"
-          size="iconSm"
+          size="icon-sm"
         >
           <XIcon />
         </Button>

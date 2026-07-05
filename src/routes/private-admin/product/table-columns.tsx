@@ -1,5 +1,5 @@
-import { ProductType } from "@/api/product-api";
-import { DataTableColumn } from "@/hooks/useDataTable";
+import type { ProductType } from "@/api/product-api";
+import type { DataTableColumn } from "@/hooks/useDataTable";
 import { formatDate } from "@/lib/date-time";
 import { TableAction, TableRowsSelect } from "./table-action";
 

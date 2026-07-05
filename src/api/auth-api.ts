@@ -1,6 +1,6 @@
 // auth-api.ts
-import { ApiNormalResponse } from "@/types/generic-type";
-import {
+import type { ApiNormalResponse } from "@/types/generic-type";
+import type {
   AuthenticationResponseJSON,
   RegistrationResponseJSON,
 } from "@simplewebauthn/browser";

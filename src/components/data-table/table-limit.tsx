@@ -5,10 +5,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { DataTable } from "@/hooks/useDataTable";
+import type { DataTableType } from "@/hooks/useDataTable";
 
 export type TableLimitProps<T> = {
-  dataTable: DataTable<T>;
+  dataTable: DataTableType<T>;
   limits?: number[];
 };
 const TableLimit = <T,>(props: TableLimitProps<T>) => {

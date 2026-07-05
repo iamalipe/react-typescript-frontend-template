@@ -11,10 +11,10 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 
 import { Button } from "@/components/ui/button";
-import { DataTable } from "@/hooks/useDataTable";
+import type { DataTableType } from "@/hooks/useDataTable";
 
 export type ColumnsViewControlsProps<T> = {
-  dataTable: DataTable<T>;
+  dataTable: DataTableType<T>;
 };
 const ColumnsViewControls = <T,>(props: ColumnsViewControlsProps<T>) => {
   const { dataTable } = props;

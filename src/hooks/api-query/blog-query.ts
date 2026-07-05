@@ -9,10 +9,10 @@ import {
 
 import api from "@/api/api";
 import {
-  ApiBlogCreate,
-  ApiBlogGetAll,
-  ApiBlogGetAllParams,
-  ApiBlogUpdate,
+  type ApiBlogCreate,
+  type ApiBlogGetAll,
+  type ApiBlogGetAllParams,
+  type ApiBlogUpdate,
 } from "@/api/blog-api";
 import { QueryClient } from "@tanstack/react-query";
 

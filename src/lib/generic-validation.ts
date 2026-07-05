@@ -109,6 +109,7 @@ export function validateAndStringify<T extends z.ZodTypeAny>(
 ): string {
   try {
     const validatedData = schema.parse(values);
+    // @ts-ignore
     return compressUrl(validatedData);
   } catch {
     return "";
@@ -123,6 +124,7 @@ export function validateAndParse<T extends z.ZodTypeAny>(
     if (!values) return null;
     const obj = decompressUrl(values);
     const validatedData = schema.parse(obj);
+    // @ts-ignore
     return validatedData;
   } catch {
     return null;

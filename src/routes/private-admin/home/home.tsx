@@ -1,21 +1,19 @@
-import alertPopup from "@/components/alert-popup/alert-popup";
 import PasskeyRegister from "@/components/passkey/passkey-register";
-import { Label, Textarea } from "@/components/ui";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { sleep } from "@/lib/utils";
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
-import ReactSelect from "react-select";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 
-import { RichTextEditor } from "@/components/rich-text-editor/rich-text-editor";
+import AlertPopupExample from "@/components/alert-popup/alert-popup-example";
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import { Textarea } from "@/components/ui/textarea";
 
 const Home = () => {
   const onToastTest = () => {
@@ -48,41 +46,10 @@ const Home = () => {
           </div>
           <div className="flex flex-col gap-2 mb-6">
             <Input />
-            <ReactSelect
-              value={{ value: "5", label: "Tiger" }}
-              onChange={(e) => {
-                console.log("onChange", e);
-              }}
-              // isMulti
-              options={[
-                { value: "1", label: "Dog" },
-                { value: "2", label: "Cat" },
-                { value: "3", label: "Elephant" },
-                { value: "4", label: "Lion" },
-                { value: "5", label: "Tiger" },
-                { value: "6", label: "Bear" },
-                { value: "7", label: "Wolf" },
-                { value: "8", label: "Fox" },
-                { value: "9", label: "Rabbit" },
-                { value: "10", label: "Deer" },
-                { value: "11", label: "Horse" },
-                { value: "12", label: "Cow" },
-                { value: "13", label: "Sheep" },
-                { value: "14", label: "Goat" },
-                { value: "15", label: "Pig" },
-                { value: "16", label: "Monkey" },
-                { value: "17", label: "Giraffe" },
-                { value: "18", label: "Zebra" },
-                { value: "19", label: "Kangaroo" },
-                { value: "20", label: "Panda" },
-              ]}
-            />
-            <Input />
           </div>
           {/* context menu testing */}
           <TextareaContextMenuTesting />
-          <AlertTestingComponent />
-          <RichTextEditor />
+          <AlertPopupExample/>
         </div>
       </main>
     </TooltipProvider>
@@ -153,67 +120,6 @@ const TextareaContextMenuTesting = () => {
           </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
-    </div>
-  );
-};
-
-// AlertTestingComponent
-
-const CustomAlertFields = forwardRef((_props, ref) => {
-  const [input, setInput] = useState("");
-  const [input2, setInput2] = useState("");
-
-  useImperativeHandle(ref, () => ({
-    getValues: () => ({ input, input2 }),
-  }));
-
-  return (
-    <div className="flex flex-col gap-2">
-      <Label className="mb-2 block">Reason for this action</Label>
-      <Input
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Custom Input Field"
-      />
-      <Label className="mb-2 block">Extra info</Label>
-      <Input
-        value={input2}
-        onChange={(e) => setInput2(e.target.value)}
-        placeholder="Another field"
-      />
-    </div>
-  );
-});
-
-const AlertTestingComponent = () => {
-  const onAlertTest = async () => {
-    const res = await alertPopup.show({
-      title: "Test Alert",
-      description: "This is a test alert message.",
-      okText: "OK",
-      cancelText: "Cancel",
-    });
-    console.log("res", res);
-  };
-  const onAlertDelete = async () => {
-    const res = await alertPopup.delete();
-    console.log("res", res);
-  };
-  const onAlertInfo = async () => {
-    const res = await alertPopup.show({
-      title: "Custom Element Test Alert",
-      description: "This is a test alert message.",
-      okText: "OK",
-      cancelText: "Cancel",
-      customElement: <CustomAlertFields />,
-    });
-    console.log("res", res);
-  };
-  return (
-    <div className="flex gap-4 mt-4">
-      <Button onClick={onAlertTest}>Alert Confirm</Button>
-      <Button onClick={onAlertDelete}>Alert Delete</Button>
-      <Button onClick={onAlertInfo}>Alert Info</Button>
     </div>
   );
 };

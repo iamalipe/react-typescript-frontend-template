@@ -5,8 +5,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  Skeleton,
-} from "@/components/ui";
+} from "@/components/ui/dialog";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const DialogSkeleton = () => {
   return (

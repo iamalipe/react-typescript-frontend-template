@@ -9,11 +9,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { TableHead } from "@/components/ui/table";
-import { DataTable, DataTableColumnFinal } from "@/hooks/useDataTable";
+import type { DataTableColumnFinal, DataTableType } from "@/hooks/useDataTable";
 import { cn } from "@/lib/utils";
 
 export type TableSortHeaderProps<T> = {
-  dataTable: DataTable<T>;
+  dataTable: DataTableType<T>;
   item: DataTableColumnFinal<T>;
 };
 
@@ -47,7 +47,7 @@ const TableSortHeader = <T,>(props: TableSortHeaderProps<T>) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
             <DropdownMenuItem
-              isTableHeader
+              // isTableHeader
               data-testid={`${item.key as string}-sort-asc`}
               className={cn({ "text-primary": ordered === "asc" })}
               onClick={() =>
@@ -70,7 +70,7 @@ const TableSortHeader = <T,>(props: TableSortHeaderProps<T>) => {
               Asc
             </DropdownMenuItem>
             <DropdownMenuItem
-              isTableHeader
+              // isTableHeader
               className={cn({ "text-primary": ordered === "desc" })}
               data-testid={`${item.key as string}-sort-desc`}
               onClick={() =>
@@ -96,7 +96,7 @@ const TableSortHeader = <T,>(props: TableSortHeaderProps<T>) => {
               <>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                  isTableHeader
+                  // isTableHeader
                   onClick={() => item.toggleVisibility(false)}
                   data-testid={`${item.key as string}-hide-column`}
                 >

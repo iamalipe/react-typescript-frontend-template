@@ -1,12 +1,12 @@
-import { ApiProductGetAll } from "@/api/product-api";
+import type { ApiProductGetAll } from "@/api/product-api";
 import DataTable from "@/components/data-table/data-table";
 import TableFooter from "@/components/data-table/table-footer";
 import { useDataTable } from "@/hooks/useDataTable";
 import usePagination from "@/hooks/usePagination";
 import useSort from "@/hooks/useSort";
 import { useTableVisibility } from "@/store/use-table-columns-visibility-store";
-import { ApiNormalResponse } from "@/types/generic-type";
-import { UseQueryResult } from "@tanstack/react-query";
+import type { ApiNormalResponse } from "@/types/generic-type";
+import type { UseQueryResult } from "@tanstack/react-query";
 import { Outlet } from "@tanstack/react-router";
 import ActionControls from "./action-controls";
 import { TableActionContextMenu, TableSelectAction } from "./table-action";

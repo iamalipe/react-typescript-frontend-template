@@ -1,10 +1,8 @@
-import { createRootRouteWithContext } from "@tanstack/react-router";
+import { createRootRoute } from "@tanstack/react-router";
 
-import { ApiType } from "@/api/api";
 import ErrorPage from "@/components/general/error-page";
 import LoadingElement from "@/components/general/loading-element";
 import PageNotFound from "@/components/general/page-not-found";
-import { ApiQuery } from "@/hooks/use-api-query";
 import RootLayout from "@/routes/root-layout";
 
 // privateRoute
@@ -22,10 +20,7 @@ import blogHomeRoute from "./public-blog/blog-home/blog-home-route";
 import publicBlogRoute from "./public-blog/public-blog-route";
 import publicHomeRoute from "./public-home/public-home-route";
 
-export const rootRoute = createRootRouteWithContext<{
-  apiQuery: ApiQuery;
-  api: ApiType;
-}>()({
+export const rootRoute = createRootRoute({
   component: RootLayout,
   errorComponent: ErrorPage,
   notFoundComponent: PageNotFound,

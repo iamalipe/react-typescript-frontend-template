@@ -7,9 +7,9 @@ import {
 
 import api from "@/api/api";
 import {
-  ApiCopyMeCreate,
-  ApiCopyMeGetAllParams,
-  ApiCopyMeUpdate,
+  type ApiCopyMeCreate,
+  type ApiCopyMeGetAllParams,
+  type ApiCopyMeUpdate,
 } from "@/api/copy-me-api";
 import { QueryClient } from "@tanstack/react-query";
 

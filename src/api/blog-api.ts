@@ -1,6 +1,6 @@
 // project-api.ts
 import { qString } from "@/lib/utils";
-import { ApiNormalResponse } from "@/types/generic-type";
+import type { ApiNormalResponse } from "@/types/generic-type";
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
 import axios from "axios";
 

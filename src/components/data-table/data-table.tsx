@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { DataTable as DataTableType } from "@/hooks/useDataTable";
+import type { DataTableType } from "@/hooks/useDataTable";
 import { cn } from "@/lib/utils";
 import TableSortHeader from "./table-sort-header";
 

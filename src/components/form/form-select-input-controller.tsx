@@ -1,4 +1,4 @@
-import { Label } from "@/components/ui";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -11,12 +11,12 @@ import { cn } from "@/lib/utils";
 import { useId } from "react";
 import {
   Controller,
-  ControllerFieldState,
-  ControllerRenderProps,
-  FieldValues,
-  Path,
-  UseFormReturn,
-  UseFormStateReturn,
+  type ControllerFieldState,
+  type ControllerRenderProps,
+  type FieldValues,
+  type Path,
+  type UseFormReturn,
+  type UseFormStateReturn,
 } from "react-hook-form";
 
 interface FormSelectInputControllerProps<T extends FieldValues> {

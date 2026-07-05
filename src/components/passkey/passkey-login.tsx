@@ -1,10 +1,10 @@
 import api from "@/api/api";
+import { Button } from "@/components/ui/button";
 import { currentUserQueryKey } from "@/hooks/api-query/auth-query";
 import { queryClient } from "@/hooks/use-api-query";
-import { SearchParams } from "@/routes/auth/login/login";
+import type { SearchParams } from "@/routes/auth/login/login";
 import { startAuthentication } from "@simplewebauthn/browser";
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { Button } from "../ui";
 
 const PasskeyLogin = () => {
   const navigate = useNavigate();

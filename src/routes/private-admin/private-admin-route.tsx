@@ -1,9 +1,9 @@
+import apiQuery from "@/hooks/use-api-query";
 import { createTypeSafeLoaderDeps } from "@/lib/generic-validation";
 import { mongoIdRegex } from "@/lib/utils";
 import PrivateAdminLayout from "@/routes/private-admin/private-admin-layout";
 import { rootRoute } from "@/routes/root-route";
 import { createRoute, redirect } from "@tanstack/react-router";
-import { zodValidator } from "@tanstack/zod-adapter";
 import { z } from "zod";
 
 export const dialogStateZodSchema = z.object({
@@ -23,8 +23,8 @@ const privateAdminRoute = createRoute({
   component: PrivateAdminLayout,
   loaderDeps: ({ search }) =>
     createTypeSafeLoaderDeps(privateRouteZodSchema, search),
-  validateSearch: zodValidator(privateRouteZodSchema),
-  beforeLoad: async ({ location, context: { apiQuery } }) => {
+  validateSearch: privateRouteZodSchema,
+  beforeLoad: async ({ location}) => {
     const res = await apiQuery.auth.getCurrentUser();
     if (!res || !res.success) {
       throw redirect({

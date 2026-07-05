@@ -1,11 +1,11 @@
-import "@tanstack/react-query";
-import { QueryClient } from "@tanstack/react-query";
+import "@tanstack/react-query"
+import { QueryClient } from "@tanstack/react-query"
 
-import type { ApiNormalResponse } from "@/types/generic-type";
+import type { ApiNormalResponse } from "@/types/generic-type"
 
 declare module "@tanstack/react-query" {
   interface Register {
-    defaultError: ApiNormalResponse | Error;
+    defaultError: ApiNormalResponse | Error
   }
 }
 
@@ -21,14 +21,14 @@ export const queryClient = new QueryClient({
       retry: false,
     },
   },
-});
+})
 
 // Import query modules after exporting queryClient
-import { authQuery } from "./api-query/auth-query";
-import { blogQuery } from "./api-query/blog-query";
-import { copyMeQuery } from "./api-query/copy-me-query";
-import { generalQuery } from "./api-query/general-query";
-import { productQuery } from "./api-query/product-query";
+import { authQuery } from "./api-query/auth-query"
+import { blogQuery } from "./api-query/blog-query"
+import { copyMeQuery } from "./api-query/copy-me-query"
+import { generalQuery } from "./api-query/general-query"
+import { productQuery } from "./api-query/product-query"
 
 const apiQuery = {
   auth: authQuery(queryClient),
@@ -36,8 +36,8 @@ const apiQuery = {
   general: generalQuery(queryClient),
   product: productQuery(queryClient),
   blog: blogQuery(queryClient),
-};
+}
 
-export type ApiQuery = typeof apiQuery;
+export type ApiQuery = typeof apiQuery
 
-export default apiQuery;
+export default apiQuery

@@ -1,13 +1,5 @@
 "use client";
 
-import {
-  IconCreditCard,
-  IconDotsVertical,
-  IconLogout,
-  IconNotification,
-  IconUserCircle,
-} from "@tabler/icons-react";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -27,6 +19,7 @@ import {
 import apiQuery from "@/hooks/use-api-query";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { BellIcon, CreditCardIcon, EllipsisVertical, LogOutIcon, UserCircleIcon } from "lucide-react";
 import { toast } from "sonner";
 
 export function NavUser() {
@@ -38,7 +31,9 @@ export function NavUser() {
     currentUser?.lastName || ""
   }`;
   const email = currentUser?.email || "";
-  const nameShort = `${currentUser?.firstName?.[0] || ""}${
+  // @ts-ignore
+  const nameX = currentUser?.firstName?.[0] || currentUser?.fullName?.[0];
+  const nameShort = `${nameX || ""}${
     currentUser?.lastName?.[0] || ""
   }`.toUpperCase();
 
@@ -58,9 +53,9 @@ export function NavUser() {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
+              <Avatar className="h-8 w-8">
                 <AvatarImage src={avatar} alt={fullName} />
-                <AvatarFallback className="rounded-lg">
+                <AvatarFallback>
                   {nameShort}
                 </AvatarFallback>
               </Avatar>
@@ -70,7 +65,7 @@ export function NavUser() {
                   {email}
                 </span>
               </div>
-              <IconDotsVertical className="ml-auto size-4" />
+              <EllipsisVertical className="ml-auto size-4"/>
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -99,22 +94,22 @@ export function NavUser() {
             <DropdownMenuGroup>
               <DropdownMenuItem asChild>
                 <Link to="/admin/profile">
-                  <IconUserCircle />
+                  <UserCircleIcon />
                   Profile
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <IconCreditCard />
+                <CreditCardIcon />
                 Billing
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <IconNotification />
+                <BellIcon />
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={onLogout}>
-              <IconLogout />
+              <LogOutIcon />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>

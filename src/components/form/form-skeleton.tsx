@@ -1,6 +1,6 @@
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn, getRandomInt } from "@/lib/utils";
 import { useMemo } from "react";
-import { Skeleton } from "../ui";
 
 const _randomWidth = [
   `w-[20%]`,

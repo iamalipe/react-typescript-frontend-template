@@ -14,7 +14,7 @@ const PublicHome = () => {
             alt="Blog"
             className="absolute inset-0 w-full blur-sm h-full object-cover"
           />
-          <span className="text-2xl absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white">
+          <span className="text-2xl absolute inset-0 flex items-center justify-center bg-black/50 text-white">
             Blog
           </span>
         </Link>
@@ -28,7 +28,7 @@ const PublicHome = () => {
             alt="Admin"
             className="absolute inset-0 blur-sm w-full h-full object-cover"
           />
-          <span className="text-2xl absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white">
+          <span className="text-2xl absolute inset-0 flex items-center justify-center bg-black/50 text-white">
             Admin
           </span>
         </Link>

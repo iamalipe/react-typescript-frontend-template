@@ -1,4 +1,4 @@
-import { ProductType } from "@/api/product-api";
+import type { ProductType } from "@/api/product-api";
 import DataTable from "@/components/data-table/data-table";
 import TableFooter from "@/components/data-table/table-footer";
 import {
@@ -13,7 +13,7 @@ import useQueryLoadingState from "@/hooks/use-query-loading-state";
 import { useDataTable } from "@/hooks/useDataTable";
 import usePaginationClientSide from "@/hooks/usePaginationClientSide";
 import useSortClientSide from "@/hooks/useSortClientSide";
-import { DialogStateType } from "@/routes/private-admin/private-admin-route";
+import type { DialogStateType } from "@/routes/private-admin/private-admin-route";
 import { useNavigate } from "@tanstack/react-router";
 import tableColumns from "../table-columns";
 import DialogSkeleton from "./dialog-skeleton";
@@ -51,7 +51,7 @@ const DialogMain = ({ data }: ProductDialogProps) => {
 
   const pagination = usePaginationClientSide({
     initialPageSize: 10,
-    initialPageIndex: 1,
+    initialPageIndex: 0,
     data: sort.sortedData,
   });
 

@@ -4,7 +4,7 @@ import {
   PaginationContent,
   PaginationItem,
 } from "@/components/ui/pagination";
-import { DataTable } from "@/hooks/useDataTable";
+import type { DataTableType } from "@/hooks/useDataTable";
 import {
   ChevronLeft,
   ChevronRight,
@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 
 export type TablePaginationProps<T> = {
-  dataTable: DataTable<T>;
+  dataTable: DataTableType<T>;
 };
 const TablePagination = <T,>(props: TablePaginationProps<T>) => {
   const { dataTable } = props;

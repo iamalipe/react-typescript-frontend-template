@@ -8,9 +8,9 @@ import {
 
 import api from "@/api/api";
 import {
-  ApiProductCreate,
-  ApiProductGetAllParams,
-  ApiProductUpdate,
+  type ApiProductCreate,
+  type ApiProductGetAllParams,
+  type ApiProductUpdate,
 } from "@/api/product-api";
 import { QueryClient } from "@tanstack/react-query";
 

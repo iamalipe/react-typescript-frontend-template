@@ -1,5 +1,5 @@
 import api from "@/api/api";
-import { Button } from "../ui";
+import { Button } from "@/components/ui/button";
 // import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
 import { startRegistration } from "@simplewebauthn/browser";
 

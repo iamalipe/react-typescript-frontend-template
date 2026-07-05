@@ -1,5 +1,5 @@
 import AdminAppSidebarMenuItem, {
-  AdminAppSidebarMenuItemProps,
+  type AdminAppSidebarMenuItemProps,
 } from "@/components/admin-app-sidebar/admin-app-sidebar-menu-item";
 import {
   Sidebar,

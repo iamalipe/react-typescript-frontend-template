@@ -1,5 +1,5 @@
+import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { Link, useLocation, type LinkProps } from "@tanstack/react-router";
-import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 
 export type AdminAppSidebarMenuItemProps = {
   title: string;
@@ -14,7 +14,7 @@ const AdminAppSidebarMenuItem = (props: AdminAppSidebarMenuItemProps) => {
 
   return (
     <SidebarMenuItem>
-      <SidebarMenuButton variant="accent" isActive={pathname === url} asChild>
+      <SidebarMenuButton variant="default" isActive={pathname === url} asChild>
         <Link to={url}>
           {props.icon}
           <span>{title}</span>
