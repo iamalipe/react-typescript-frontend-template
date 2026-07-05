@@ -9,7 +9,7 @@ import {
   SidebarGroupContent,
   SidebarMenu,
 } from "@/components/ui/sidebar";
-import { Home, Package, SquareKanban } from "lucide-react";
+import { ChartAreaIcon, Home, Package, SquareKanban } from "lucide-react";
 import { NavUser } from "./nav-user";
 
 const pageMenus: AdminAppSidebarMenuItemProps[] = [
@@ -28,6 +28,12 @@ const pageMenus: AdminAppSidebarMenuItemProps[] = [
     url: "/admin/kanban",
     icon: <SquareKanban />,
   },
+  {
+    title: "AI Chat",
+    url: "/admin/ai-chat",
+    icon: <ChartAreaIcon />,
+  },
+
 ];
 
 export function AdminAppSidebar() {
