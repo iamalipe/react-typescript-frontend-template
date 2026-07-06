@@ -1,83 +1,83 @@
-import api from "@/api/api";
-import { AsyncButton } from "@/components/custom/async-button";
-import FormController from "@/components/form/form-controller";
-import ThemeToggle from "@/components/theme-toggle/theme-toggle";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { currentUserQueryKey } from "@/hooks/api-query/auth-query";
-import { queryClient } from "@/hooks/use-api-query";
-import { handleFormError } from "@/lib/form";
-import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { PawPrintIcon } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import api from "@/api/api"
+import { AsyncButton } from "@/components/custom/async-button"
+import FormController from "@/components/form/form-controller"
+import ThemeToggle from "@/components/theme-toggle/theme-toggle"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { currentUserQueryKey } from "@/hooks/api-query/auth-query"
+import { queryClient } from "@/hooks/use-api-query"
+import { handleFormError } from "@/lib/form"
+import { cn } from "@/lib/utils"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Link, useNavigate, useSearch } from "@tanstack/react-router"
+import { PawPrintIcon } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 
 const formSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
-});
+})
 
-export type FormSchemaType = z.infer<typeof formSchema>;
+export type FormSchemaType = z.infer<typeof formSchema>
 
 // Define the search params type
 export type SearchParams = {
-  redirect?: string;
-};
+  redirect?: string
+}
 
 const Login = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const { redirect } = useSearch({
     from: "/_auth/login",
-  }) as SearchParams;
+  }) as SearchParams
 
   const defaultValues: Partial<FormSchemaType> = {
-    email: "sydney.shannon.244535@yopmail.com",
+    email: "abhiseck@yopmail.com",
     password: "Abcd@1234",
-  };
+  }
 
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues,
     // mode: "onChange",
-  });
+  })
 
   const onSubmit = async (data: FormSchemaType) => {
     try {
-      const res = await api.auth.login(data);
+      const res = await api.auth.login(data)
       if (!res.success) {
         handleFormError({
           form,
           error: res,
           defaultMessage: "Login failed, please try again.",
-        });
-        return;
+        })
+        return
       }
-      form.reset();
+      form.reset()
       // await apiQuery.auth.getCurrentUser();
-      queryClient.invalidateQueries({ queryKey: currentUserQueryKey });
+      queryClient.invalidateQueries({ queryKey: currentUserQueryKey })
       // If there's a redirect URL, navigate to it, otherwise go to the home page
       if (redirect) {
         // Handle external URLs or relative paths
         if (redirect.startsWith("http")) {
           // eslint-disable-next-line react-hooks/immutability
-          window.location.href = redirect;
+          window.location.href = redirect
         } else {
           // For internal app routes
-          navigate({ to: redirect });
+          navigate({ to: redirect })
         }
       } else {
-        navigate({ to: "/admin" });
+        navigate({ to: "/admin" })
       }
     } catch (error) {
       handleFormError({
         form,
         error,
         defaultMessage: "Login failed, please try again.",
-      });
+      })
     }
-  };
+  }
 
   return (
     <main className="h-full-x overflow-hidden flex">
@@ -155,7 +155,7 @@ const Login = () => {
                   placeholder="John@example.com"
                   className={cn([isError ? "border-destructive" : ""])}
                   onChange={(e) => {
-                    field.onChange(e.target.value);
+                    field.onChange(e.target.value)
                   }}
                   aria-invalid={isError}
                   aria-describedby={ariaDescribedby}
@@ -175,7 +175,7 @@ const Login = () => {
                   placeholder="Enter your password"
                   className={cn([isError ? "border-destructive" : ""])}
                   onChange={(e) => {
-                    field.onChange(e.target.value);
+                    field.onChange(e.target.value)
                   }}
                   aria-invalid={isError}
                   aria-describedby={ariaDescribedby}
@@ -223,7 +223,7 @@ const Login = () => {
         </div>
       </div>
     </main>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
