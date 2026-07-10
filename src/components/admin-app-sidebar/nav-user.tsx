@@ -19,7 +19,7 @@ import {
 import apiQuery from "@/hooks/use-api-query";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { BellIcon, CreditCardIcon, EllipsisVertical, LogOutIcon, UserCircleIcon } from "lucide-react";
+import { EllipsisVertical, LogOutIcon, UserCircleIcon } from "lucide-react";
 import { toast } from "sonner";
 
 export function NavUser() {
@@ -97,14 +97,6 @@ export function NavUser() {
                   <UserCircleIcon />
                   Profile
                 </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCardIcon />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <BellIcon />
-                Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

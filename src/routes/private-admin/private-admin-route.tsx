@@ -8,7 +8,7 @@ import { z } from "zod";
 
 export const dialogStateZodSchema = z.object({
   mode: z.enum(["CREATE", "UPDATE", "VIEW", "VIEW-ALL"]).optional(),
-  dialog: z.enum(["Copy-Me", "Product"]).optional(),
+  dialog: z.enum(["CopyMe", "Copy-Me"]).optional(),
   id: z.string().regex(mongoIdRegex, "Invalid id").optional(),
 });
 export type DialogStateType = z.infer<typeof dialogStateZodSchema>;

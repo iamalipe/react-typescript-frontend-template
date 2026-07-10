@@ -32,10 +32,7 @@ export type CurrentUser = {
   updatedAt: string;
   firstName: string;
   lastName: string;
-  sex?: "male" | "female" | "other";
   role: "user" | "root";
-  dateOfBirth?: string;
-  jobTitle?: string[];
   profileImage?: string;
 };
 export type CurrentUserReturn = {
@@ -179,6 +176,27 @@ export const authAPI = (axiosInstance: AxiosInstance) => ({
       // const stringifiedParams = params ? qString(params) : "";
       const response = await axiosInstance.post<CurrentUserReturn>(
         `/auth/passkey/login-verify`,
+        data,
+        config
+      );
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        throw error.response.data as ApiNormalResponse;
+      }
+      throw error;
+    }
+  },
+  updateProfile: async (
+    data: {
+      firstName?: string;
+      lastName?: string;
+    },
+    config?: AxiosRequestConfig
+  ): Promise<CurrentUserReturn> => {
+    try {
+      const response = await axiosInstance.put<CurrentUserReturn>(
+        "/auth/profile",
         data,
         config
       );

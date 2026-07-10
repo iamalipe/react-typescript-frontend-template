@@ -57,7 +57,6 @@ export default function ProfileHeader() {
               </div>
             </div>
           </div>
-          <Button variant="default">Edit Profile</Button>
         </div>
       </CardContent>
     </Card>

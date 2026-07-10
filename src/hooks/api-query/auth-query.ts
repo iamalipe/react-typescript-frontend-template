@@ -1,4 +1,4 @@
-import { QueryClient, queryOptions, useQuery } from "@tanstack/react-query";
+import { QueryClient, queryOptions, useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import api from "@/api/api";
 
@@ -15,6 +15,17 @@ export const authQuery = (queryClient: QueryClient) => ({
   getCurrentUserOptions: getCurrentUserOptions,
   getCurrentUser: () => queryClient.fetchQuery(getCurrentUserOptions()),
   useGetCurrentUser: () => useQuery(getCurrentUserOptions()),
+
+  useUpdateProfile: () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: (data: Parameters<typeof api.auth.updateProfile>[0]) =>
+        api.auth.updateProfile(data),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: currentUserQueryKey });
+      },
+    });
+  },
 
   logoutUser: async () => {
     const result = await api.auth.logout();

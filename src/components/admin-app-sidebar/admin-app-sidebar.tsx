@@ -19,8 +19,8 @@ const pageMenus: AdminAppSidebarMenuItemProps[] = [
     icon: <Home />,
   },
   {
-    title: "Product",
-    url: "/admin/product",
+    title: "Copy-Me Template",
+    url: "/admin/copy-me",
     icon: <Package />,
   },
 ]

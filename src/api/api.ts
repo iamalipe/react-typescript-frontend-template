@@ -3,8 +3,8 @@ import axios from "axios";
 
 // import all api
 import { authAPI } from "./auth-api";
-import { blogAPI } from "./blog-api";
-import { productAPI } from "./product-api";
+import { copyMeAPI } from "./copy-me-api";
+import { changeLogAPI } from "./changelog-api";
 
 // Axios instance configuration
 const VITE_API_URL = (import.meta.env.VITE_API_URL as string) || "";
@@ -16,8 +16,8 @@ export const axiosInstance = axios.create({
 // Export all APIs
 const api = {
   auth: authAPI(axiosInstance),
-  product: productAPI(axiosInstance),
-  blog: blogAPI(axiosInstance),
+  copyMe: copyMeAPI(axiosInstance),
+  changelog: changeLogAPI(axiosInstance),
 };
 
 export type ApiType = typeof api;

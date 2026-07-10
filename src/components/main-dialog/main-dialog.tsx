@@ -3,8 +3,8 @@ import { dialogStateZodSchema } from "@/routes/private-admin/private-admin-route
 import { useSearch } from "@tanstack/react-router";
 import { useMemo } from "react";
 
-import ProductDialogAll from "@/routes/private-admin/product/dialog-all/product-dialog-all";
-import ProductDialog from "@/routes/private-admin/product/dialog/product-dialog";
+import CopyMeDialogAll from "@/routes/private-admin/copy-me/dialog-all/copy-me-dialog-all";
+import CopyMeDialog from "@/routes/private-admin/copy-me/dialog/copy-me-dialog";
 
 const MainDialog = () => {
   const searchParams = useSearch({
@@ -16,19 +16,21 @@ const MainDialog = () => {
 
   if (!dialogState) return null;
 
+  const isCopyMe = dialogState?.dialog === "CopyMe" || dialogState?.dialog === "Copy-Me";
+
   if (
-    dialogState?.dialog === "Product" &&
+    isCopyMe &&
     dialogState.mode &&
     ["CREATE", "UPDATE", "VIEW"].includes(dialogState.mode)
   ) {
-    return <ProductDialog state={dialogState} />;
+    return <CopyMeDialog state={dialogState} />;
   }
   if (
-    dialogState?.dialog === "Product" &&
+    isCopyMe &&
     dialogState.mode &&
     ["VIEW-ALL"].includes(dialogState.mode)
   ) {
-    return <ProductDialogAll state={dialogState} />;
+    return <CopyMeDialogAll state={dialogState} />;
   }
 
   return null;

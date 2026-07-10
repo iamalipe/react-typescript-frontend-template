@@ -1,5 +1,11 @@
 import { type ChatTransport, type UIMessage, type UIMessageChunk } from "ai"
-import { type Message } from "@ai-sdk/react"
+
+export interface Message {
+  id: string;
+  role: 'system' | 'user' | 'assistant' | 'data';
+  content: string;
+  createdAt?: Date;
+}
 
 interface ChatStep {
   type: "message" | "sleep"

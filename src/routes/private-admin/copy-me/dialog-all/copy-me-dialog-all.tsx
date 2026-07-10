@@ -1,4 +1,4 @@
-import type { ProductType } from "@/api/product-api";
+import type { CopyMeType } from "@/api/copy-me-api";
 import DataTable from "@/components/data-table/data-table";
 import TableFooter from "@/components/data-table/table-footer";
 import {
@@ -16,23 +16,25 @@ import useSortClientSide from "@/hooks/useSortClientSide";
 import type { DialogStateType } from "@/routes/private-admin/private-admin-route";
 import { useNavigate } from "@tanstack/react-router";
 import tableColumns from "../table-columns";
-import DialogSkeleton from "./dialog-skeleton";
+import DialogSkeleton from "../dialog/dialog-skeleton";
 
-export type ProductDialogProps = {
+export type CopyMeDialogProps = {
   state: DialogStateType;
-  data?: ProductType[];
+  data?: CopyMeType[];
 };
-const ProductDialogAll = ({ state }: ProductDialogProps) => {
-  const productQuery = apiQuery.product.useGetAll({ page: 0, limit: 100 });
-  const { isLoading } = useQueryLoadingState([productQuery]);
+
+const CopyMeDialogAll = ({ state }: CopyMeDialogProps) => {
+  const recordQuery = apiQuery.copyMe.useGetAll({ page: 0, limit: 100 });
+  const { isLoading } = useQueryLoadingState([recordQuery]);
 
   if (isLoading) return <DialogSkeleton />;
 
-  return <DialogMain state={state} data={productQuery?.data?.data} />;
+  return <DialogMain state={state} data={recordQuery?.data?.data} />;
 };
-export default ProductDialogAll;
 
-const DialogMain = ({ data }: ProductDialogProps) => {
+export default CopyMeDialogAll;
+
+const DialogMain = ({ data }: CopyMeDialogProps) => {
   const navigate = useNavigate();
 
   const onClose = () => {
@@ -75,23 +77,15 @@ const DialogMain = ({ data }: ProductDialogProps) => {
       >
         <DialogContent className="sm:max-w-[1200px] flex flex-col sm:max-h-[80vh] px-2 md:px-4 sm:px-6">
           <DialogHeader className="flex-none">
-            <DialogTitle>All Products</DialogTitle>
+            <DialogTitle>All Copy-Me Records</DialogTitle>
             <DialogDescription>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Recusandae ipsum porro sapiente! Perferendis harum dolorem culpa
-              perspiciatis incidunt labore laborum quae ratione at voluptatum.
-              Nam porro delectus eos autem reiciendis?
+              A client-side paginated list of all Copy-Me records in the database, demonstrating how tables display nested fields like enum status and date formats.
             </DialogDescription>
           </DialogHeader>
           <div className="flex-1 overflow-hidden flex flex-col gap-2 md:gap-4">
             <DataTable dataTable={dataTable} />
             <TableFooter dataTable={dataTable} />
           </div>
-          {/* <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-          </DialogFooter> */}
         </DialogContent>
       </Dialog>
     </>

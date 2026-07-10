@@ -25,15 +25,15 @@ export const queryClient = new QueryClient({
 
 // Import query modules after exporting queryClient
 import { authQuery } from "./api-query/auth-query"
-import { blogQuery } from "./api-query/blog-query"
 import { generalQuery } from "./api-query/general-query"
-import { productQuery } from "./api-query/product-query"
+import { copyMeQuery } from "./api-query/copy-me-query"
+import { changeLogQuery } from "./api-query/changelog-query"
 
 const apiQuery = {
   auth: authQuery(queryClient),
   general: generalQuery(queryClient),
-  product: productQuery(queryClient),
-  blog: blogQuery(queryClient),
+  copyMe: copyMeQuery(queryClient),
+  changelog: changeLogQuery(queryClient),
 }
 
 export type ApiQuery = typeof apiQuery

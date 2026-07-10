@@ -1,4 +1,4 @@
-import type { ProductType } from "@/api/product-api";
+import type { CopyMeType } from "@/api/copy-me-api";
 import alertPopup from "@/components/alert-popup/alert-popup";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -27,33 +27,35 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import { dialogStateZodSchema } from "../private-admin-route";
 
-export const TableAction = ({ data }: { data: ProductType }) => {
-  const navigate = useNavigate({ from: "/admin/product" });
+export const TableAction = ({ data }: { data: CopyMeType }) => {
+  const navigate = useNavigate({ from: "/admin/copy-me" });
   const isMobile = useIsMobile();
   const router = useRouter();
+
   const onView = async () => {
     const ds = validateAndStringify(dialogStateZodSchema, {
-      dialog: "Product",
+      dialog: "CopyMe",
       id: data._id,
       mode: "VIEW",
     });
     if (!ds) return;
     navigate({
-      search: (prev:any) => ({
+      search: (prev: any) => ({
         ...prev,
         ds: ds,
       }),
     });
   };
+
   const onUpdate = async () => {
     const ds = validateAndStringify(dialogStateZodSchema, {
-      dialog: "Product",
+      dialog: "CopyMe",
       id: data._id,
       mode: "UPDATE",
     });
     if (!ds) return;
     navigate({
-      search: (prev:any) => ({
+      search: (prev: any) => ({
         ...prev,
         ds: ds,
       }),
@@ -63,7 +65,7 @@ export const TableAction = ({ data }: { data: ProductType }) => {
   const onDelete = async () => {
     const deleteRes = await alertPopup.delete();
     if (deleteRes) {
-      const res = await apiQuery.product.delete(data._id);
+      const res = await apiQuery.copyMe.delete(data._id);
       if (res.success) {
         toast.success(res.message || "Record Deleted");
         router.invalidate();
@@ -107,32 +109,34 @@ export const TableAction = ({ data }: { data: ProductType }) => {
   );
 };
 
-export const TableActionContextMenu = ({ data }: { data: ProductType }) => {
-  const navigate = useNavigate({ from: "/admin/product" });
+export const TableActionContextMenu = ({ data }: { data: CopyMeType }) => {
+  const navigate = useNavigate({ from: "/admin/copy-me" });
   const router = useRouter();
+
   const onView = async () => {
     const ds = validateAndStringify(dialogStateZodSchema, {
-      dialog: "Product",
+      dialog: "CopyMe",
       id: data._id,
       mode: "VIEW",
     });
     if (!ds) return;
     navigate({
-      search: (prev:any) => ({
+      search: (prev: any) => ({
         ...prev,
         ds: ds,
       }),
     });
   };
+
   const onUpdate = async () => {
     const ds = validateAndStringify(dialogStateZodSchema, {
-      dialog: "Product",
+      dialog: "CopyMe",
       id: data._id,
       mode: "UPDATE",
     });
     if (!ds) return;
     navigate({
-      search: (prev:any) => ({
+      search: (prev: any) => ({
         ...prev,
         ds: ds,
       }),
@@ -142,7 +146,7 @@ export const TableActionContextMenu = ({ data }: { data: ProductType }) => {
   const onDelete = async () => {
     const deleteRes = await alertPopup.delete();
     if (deleteRes) {
-      const res = await apiQuery.product.delete(data._id);
+      const res = await apiQuery.copyMe.delete(data._id);
       if (res.success) {
         toast.success(res.message || "Record Deleted");
         router.invalidate();
@@ -167,11 +171,11 @@ export const TableRowsSelect = ({
   data,
   type = "row",
 }: {
-  data?: ProductType;
+  data?: CopyMeType;
   type?: "header" | "row";
 }) => {
   const { isRowSelect, toggleRowSelect, selectedRows } =
-    useTableRowsSelect("product");
+    useTableRowsSelect("copyMe");
 
   const checked =
     type === "header" && selectedRows.length > 0
@@ -199,7 +203,7 @@ export const TableRowsSelect = ({
 };
 
 export const TableSelectAction = () => {
-  const { selectedRows, clearRowSelect } = useTableRowsSelect("product");
+  const { selectedRows, clearRowSelect } = useTableRowsSelect("copyMe");
 
   useEffect(() => {
     return () => {
