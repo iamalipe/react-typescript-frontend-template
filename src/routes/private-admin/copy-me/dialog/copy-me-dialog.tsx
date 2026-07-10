@@ -1,4 +1,5 @@
 import type { CopyMeType } from "@/api/copy-me-api";
+import { faker } from "@faker-js/faker";
 import FormController from "@/components/form/form-controller";
 import { Button } from "@/components/ui/button";
 import {
@@ -169,6 +170,48 @@ const DialogMain = ({ data, state }: CopyMeDialogProps) => {
       }
     }
   }, [data]);
+
+  const onGenerateMock = () => {
+    const mockData = {
+      stringRequired: faker.commerce.productName(),
+      stringTextarea: faker.commerce.productDescription(),
+      stringOptional: faker.helpers.arrayElement(["", faker.company.buzzPhrase()]),
+      stringTextareaOptional: faker.helpers.arrayElement(["", faker.lorem.paragraph()]),
+      numberDecimal: parseFloat(faker.finance.amount({ min: 1, max: 1000, dec: 2 })),
+      numberInt: faker.number.int({ min: 1, max: 100 }),
+      numberSlider: faker.number.int({ min: 0, max: 100 }),
+      dateOnly: format(faker.date.recent({ days: 10 }), "yyyy-MM-dd"),
+      dateTime: faker.date.recent({ days: 10 }).toISOString(),
+      dateRangeStart: format(faker.date.recent({ days: 5 }), "yyyy-MM-dd"),
+      dateRangeEnd: format(faker.date.soon({ days: 5 }), "yyyy-MM-dd"),
+      dateTimeRangeStart: faker.date.recent({ days: 5 }).toISOString(),
+      dateTimeRangeEnd: faker.date.soon({ days: 5 }).toISOString(),
+      booleanSwitch: faker.datatype.boolean(),
+      enumString: faker.helpers.arrayElement(["Active", "Inactive", "Block", "Pending"]) as any,
+      customOptionalString: faker.helpers.arrayElement(["P1", "P2", "P3", "P4", "FakerCustom"]),
+      singleArray: [faker.commerce.productAdjective(), faker.commerce.productAdjective()],
+      arrayObject: [
+        { label: "Color", value: faker.color.human() },
+        { label: "Material", value: faker.commerce.productMaterial() }
+      ],
+      twoDArray: "[[1,2],[3,4]]",
+      nestedObject: {
+        title: faker.word.noun(),
+        priority: faker.number.int({ min: 1, max: 5 }),
+      }
+    };
+
+    Object.entries(mockData).forEach(([key, val]) => {
+      form.setValue(key as any, val, { shouldValidate: true, shouldDirty: true });
+    });
+
+    if (["P1", "P2", "P3", "P4"].includes(mockData.customOptionalString)) {
+      setSelectMode("SELECT");
+    } else {
+      setSelectMode("CUSTOM");
+      setCustomVal(mockData.customOptionalString);
+    }
+  };
 
   const onClose = () => {
     form.reset();
@@ -965,19 +1008,28 @@ const DialogMain = ({ data, state }: CopyMeDialogProps) => {
           </div>
         </form>
 
-        <DialogFooter className="border-t pt-4">
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
-          {state.mode === "CREATE" ? (
-            <Button onClick={form.handleSubmit(onSubmit)} type="submit">
-              Create
-            </Button>
-          ) : (
-            <Button onClick={form.handleSubmit(onUpdate)} type="submit">
-              Update
-            </Button>
-          )}
+        <DialogFooter className="border-t pt-4 flex flex-row justify-between items-center w-full gap-2">
+          <div>
+            {state.mode === "CREATE" && (
+              <Button type="button" variant="secondary" onClick={onGenerateMock}>
+                Generate Mock
+              </Button>
+            )}
+          </div>
+          <div className="flex gap-2">
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            {state.mode === "CREATE" ? (
+              <Button onClick={form.handleSubmit(onSubmit)} type="submit">
+                Create
+              </Button>
+            ) : (
+              <Button onClick={form.handleSubmit(onUpdate)} type="submit">
+                Update
+              </Button>
+            )}
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
