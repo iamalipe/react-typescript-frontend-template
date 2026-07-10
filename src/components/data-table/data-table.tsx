@@ -47,53 +47,64 @@ const DataTable = <T,>(props: DataTableProps<T>) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {dataTable.rows.map((item) => {
-            if (contextMenu)
+          {dataTable.rows.length === 0 ? (
+            <TableRow>
+              <TableCell
+                colSpan={dataTable.columns.filter((item) => item.columnVisibility).length}
+                className="h-24 text-center text-muted-foreground text-sm font-medium"
+              >
+                No records found.
+              </TableCell>
+            </TableRow>
+          ) : (
+            dataTable.rows.map((item) => {
+              if (contextMenu)
+                return (
+                  <ContextMenu key={item.id as string}>
+                    <ContextMenuTrigger asChild>
+                      <TableRow key={item.id as string}>
+                        {dataTable.columns
+                          .filter((item) => item.columnVisibility)
+                          .map((colItem) => {
+                            return (
+                              <TableCell
+                                key={colItem.id}
+                                className={cn([colItem.classNameRow])}
+                                onContextMenu={(e) => {
+                                  if (
+                                    colItem.key === "action" ||
+                                    colItem.key === "select"
+                                  )
+                                    e.preventDefault();
+                                }}
+                              >
+                                {colItem.render(item.data)}
+                              </TableCell>
+                            );
+                          })}
+                      </TableRow>
+                    </ContextMenuTrigger>
+                    {contextMenu?.(item.data)}
+                  </ContextMenu>
+                );
               return (
-                <ContextMenu key={item.id as string}>
-                  <ContextMenuTrigger asChild>
-                    <TableRow key={item.id as string}>
-                      {dataTable.columns
-                        .filter((item) => item.columnVisibility)
-                        .map((colItem) => {
-                          return (
-                            <TableCell
-                              key={colItem.id}
-                              className={cn([colItem.classNameRow])}
-                              onContextMenu={(e) => {
-                                if (
-                                  colItem.key === "action" ||
-                                  colItem.key === "select"
-                                )
-                                  e.preventDefault();
-                              }}
-                            >
-                              {colItem.render(item.data)}
-                            </TableCell>
-                          );
-                        })}
-                    </TableRow>
-                  </ContextMenuTrigger>
-                  {contextMenu?.(item.data)}
-                </ContextMenu>
+                <TableRow key={item.id as string}>
+                  {dataTable.columns
+                    .filter((item) => item.columnVisibility)
+                    .map((colItem) => {
+                      return (
+                        <TableCell
+                          key={colItem.id}
+                          className={cn([colItem.classNameRow])}
+                        >
+                          {colItem.render(item.data)}
+                        </TableCell>
+                      );
+                    })}
+                </TableRow>
               );
-            return (
-              <TableRow key={item.id as string}>
-                {dataTable.columns
-                  .filter((item) => item.columnVisibility)
-                  .map((colItem) => {
-                    return (
-                      <TableCell
-                        key={colItem.id}
-                        className={cn([colItem.classNameRow])}
-                      >
-                        {colItem.render(item.data)}
-                      </TableCell>
-                    );
-                  })}
-              </TableRow>
-            );
-          })}
+            })
+          )}
         </TableBody>
       </Table>
     </>
@@ -109,24 +120,30 @@ const DataTableMobile = <T,>(props: DataTableProps<T>) => {
   return (
     <>
       <div className="flex flex-col md:hidden relative w-full overflow-auto flex-1 scrollbar-thin gap-4">
-        {dataTable?.rows.map((item) => (
-          <div key={item.id} className="px-2 flex flex-col rounded-md border">
-            {columnVisibility.map((colItem, index) => (
-              <div
-                key={colItem.id}
-                className={cn([
-                  "p-2 flex",
-                  columnVisibility.length - 1 !== index && "border-b",
-                ])}
-              >
-                <div className="w-2/5">{colItem.label}</div>
-                <div className="text-sm text-muted-foreground w-3/5">
-                  {colItem.render(item.data)}
-                </div>
-              </div>
-            ))}
+        {dataTable?.rows.length === 0 ? (
+          <div className="flex flex-col items-center justify-center p-8 border rounded-lg bg-muted/20 text-muted-foreground text-sm font-medium">
+            No records found.
           </div>
-        ))}
+        ) : (
+          dataTable?.rows.map((item) => (
+            <div key={item.id} className="px-2 flex flex-col rounded-md border">
+              {columnVisibility.map((colItem, index) => (
+                <div
+                  key={colItem.id}
+                  className={cn([
+                    "p-2 flex",
+                    columnVisibility.length - 1 !== index && "border-b",
+                  ])}
+                >
+                  <div className="w-2/5">{colItem.label}</div>
+                  <div className="text-sm text-muted-foreground w-3/5">
+                    {colItem.render(item.data)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))
+        )}
       </div>
     </>
   );

@@ -28,7 +28,18 @@ import { z } from "zod";
 import { useState, useEffect } from "react";
 import DialogSkeleton from "./dialog-skeleton";
 import DialogViewMode from "./dialog-view-mode";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxContent,
+  ComboboxList,
+  ComboboxItem,
+  ComboboxEmpty,
+} from "@/components/ui/combobox";
 
 // Form Schema
 const formSchema = z.object({
@@ -37,8 +48,14 @@ const formSchema = z.object({
   stringOptional: z.string().optional().default(""),
   stringTextareaOptional: z.string().optional().default(""),
 
-  numberDecimal: z.coerce.number().positive("Must be positive number"),
-  numberInt: z.coerce.number().int("Must be an integer"),
+  numberDecimal: z.preprocess(
+    (val) => (val === "" || val === null || val === undefined ? undefined : Number(val)),
+    z.number({ message: "Decimal number is required" }).positive("Must be positive number")
+  ),
+  numberInt: z.preprocess(
+    (val) => (val === "" || val === null || val === undefined ? undefined : Number(val)),
+    z.number({ message: "Integer number is required" }).int("Must be an integer")
+  ),
   numberSlider: z.coerce.number().min(0).max(100),
 
   dateOnly: z.string().min(1, "Date is required"),
@@ -106,8 +123,8 @@ const DialogMain = ({ data, state }: CopyMeDialogProps) => {
     stringTextarea: data?.stringTextarea ?? "",
     stringOptional: data?.stringOptional ?? "",
     stringTextareaOptional: data?.stringTextareaOptional ?? "",
-    numberDecimal: data?.numberDecimal ?? 0,
-    numberInt: data?.numberInt ?? 0,
+    numberDecimal: data?.numberDecimal ?? "" as unknown as number,
+    numberInt: data?.numberInt ?? "" as unknown as number,
     numberSlider: data?.numberSlider ?? 50,
     // Format dates to YYYY-MM-DD or YYYY-MM-DDTHH:mm for HTML inputs
     dateOnly: data?.dateOnly ? data.dateOnly.split("T")[0] : "",
@@ -357,20 +374,22 @@ const DialogMain = ({ data, state }: CopyMeDialogProps) => {
               form={form}
               name="enumString"
               label="Enum Dropdown Status"
-              render={({ field, isError, ariaDescribedby }) => (
-                <select
-                  id={field.name}
-                  className="w-full border rounded-md p-2 bg-background text-sm"
+              render={({ field }) => (
+                <Combobox
                   value={field.value as string}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  aria-invalid={isError}
-                  aria-describedby={ariaDescribedby}
+                  onValueChange={field.onChange}
                 >
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                  <option value="Block">Block</option>
-                  <option value="Pending">Pending</option>
-                </select>
+                  <ComboboxInput placeholder="Select status..." showClear={true} />
+                  <ComboboxContent className="w-full">
+                    <ComboboxList>
+                      <ComboboxItem value="Active">Active</ComboboxItem>
+                      <ComboboxItem value="Inactive">Inactive</ComboboxItem>
+                      <ComboboxItem value="Block">Block</ComboboxItem>
+                      <ComboboxItem value="Pending">Pending</ComboboxItem>
+                    </ComboboxList>
+                    <ComboboxEmpty>No results found</ComboboxEmpty>
+                  </ComboboxContent>
+                </Combobox>
               )}
             />
 
@@ -379,29 +398,32 @@ const DialogMain = ({ data, state }: CopyMeDialogProps) => {
               form={form}
               name="customOptionalString"
               label="Select Selector (with Write-In)"
-              render={({ field, isError, ariaDescribedby }) => (
+              render={({ field }) => (
                 <div className="space-y-2">
                   {selectMode === "SELECT" ? (
-                    <select
-                      className="w-full border rounded-md p-2 bg-background text-sm"
+                    <Combobox
                       value={field.value as string}
-                      onChange={(e) => {
-                        if (e.target.value === "OTHER") {
+                      onValueChange={(val) => {
+                        if (val === "OTHER") {
                           setSelectMode("CUSTOM");
                           field.onChange("");
                         } else {
-                          field.onChange(e.target.value);
+                          field.onChange(val);
                         }
                       }}
-                      aria-invalid={isError}
-                      aria-describedby={ariaDescribedby}
                     >
-                      <option value="P1">P1</option>
-                      <option value="P2">P2</option>
-                      <option value="P3">P3</option>
-                      <option value="P4">P4</option>
-                      <option value="OTHER">Other Custom Write-In</option>
-                    </select>
+                      <ComboboxInput placeholder="Select option..." showClear={true} />
+                      <ComboboxContent className="w-full">
+                        <ComboboxList>
+                          <ComboboxItem value="P1">P1</ComboboxItem>
+                          <ComboboxItem value="P2">P2</ComboboxItem>
+                          <ComboboxItem value="P3">P3</ComboboxItem>
+                          <ComboboxItem value="P4">P4</ComboboxItem>
+                          <ComboboxItem value="OTHER">Other Custom Write-In</ComboboxItem>
+                        </ComboboxList>
+                        <ComboboxEmpty>No results found</ComboboxEmpty>
+                      </ComboboxContent>
+                    </Combobox>
                   ) : (
                     <div className="flex items-center gap-2">
                       <Input
@@ -438,16 +460,34 @@ const DialogMain = ({ data, state }: CopyMeDialogProps) => {
               form={form}
               name="dateOnly"
               label="Calendar Date Only Picker"
-              render={({ field, isError, ariaDescribedby }) => (
-                <Input
-                  id={field.name}
-                  type="date"
-                  className={cn([isError ? "border-destructive" : ""])}
-                  value={field.value as string}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  aria-invalid={isError}
-                  aria-describedby={ariaDescribedby}
-                />
+              render={({ field }) => (
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full justify-start text-left font-normal h-9",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {field.value ? (
+                        format(new Date(field.value), "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value ? new Date(field.value) : undefined}
+                      onSelect={(date) => {
+                        field.onChange(date ? format(date, "yyyy-MM-dd") : "");
+                      }}
+                    />
+                  </PopoverContent>
+                </Popover>
               )}
             />
 
@@ -456,72 +496,209 @@ const DialogMain = ({ data, state }: CopyMeDialogProps) => {
               form={form}
               name="dateTime"
               label="Date & Time Picker"
-              render={({ field, isError, ariaDescribedby }) => (
-                <Input
-                  id={field.name}
-                  type="datetime-local"
-                  className={cn([isError ? "border-destructive" : ""])}
-                  value={field.value as string}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  aria-invalid={isError}
-                  aria-describedby={ariaDescribedby}
-                />
-              )}
+              render={({ field }) => {
+                const dateVal = field.value ? new Date(field.value) : undefined;
+                const timeVal = field.value ? format(new Date(field.value), "HH:mm") : "00:00";
+                return (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal h-9",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {field.value ? (
+                          format(new Date(field.value), "PPp")
+                        ) : (
+                          <span>Pick a date & time</span>
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-4 flex flex-col gap-2" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={dateVal}
+                        onSelect={(date) => {
+                          if (date) {
+                            const [hours, minutes] = timeVal.split(":");
+                            date.setHours(Number(hours), Number(minutes), 0, 0);
+                            field.onChange(date.toISOString());
+                          }
+                        }}
+                      />
+                      <div className="flex items-center gap-2 border-t pt-2 mt-1">
+                        <span className="text-xs font-semibold text-muted-foreground">Time:</span>
+                        <Input
+                          type="time"
+                          value={timeVal}
+                          className="h-8 w-28 text-xs"
+                          onChange={(e) => {
+                            const newTime = e.target.value || "00:00";
+                            const baseDate = dateVal || new Date();
+                            const [hours, minutes] = newTime.split(":");
+                            baseDate.setHours(Number(hours), Number(minutes), 0, 0);
+                            field.onChange(baseDate.toISOString());
+                          }}
+                        />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                );
+              }}
             />
 
             {/* dateRange */}
-            <div className="grid grid-cols-2 gap-2">
+            <div className="col-span-1 md:col-span-2 space-y-2">
+              <Label className="text-sm font-medium">Date Range (Start & End)</Label>
               <FormController
                 form={form}
                 name="dateRangeStart"
-                label="Start Date Only"
-                render={({ field }) => (
-                  <Input
-                    type="date"
-                    value={field.value as string}
-                    onChange={(e) => field.onChange(e.target.value)}
-                  />
-                )}
-              />
-              <FormController
-                form={form}
-                name="dateRangeEnd"
-                label="End Date Only"
-                render={({ field }) => (
-                  <Input
-                    type="date"
-                    value={field.value as string}
-                    onChange={(e) => field.onChange(e.target.value)}
-                  />
-                )}
+                label=""
+                render={({ field: _ }) => {
+                  const startStr = form.watch("dateRangeStart");
+                  const endStr = form.watch("dateRangeEnd");
+                  const startVal = startStr ? new Date(startStr) : undefined;
+                  const endVal = endStr ? new Date(endStr) : undefined;
+                  
+                  return (
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "w-full justify-start text-left font-normal h-9",
+                            (!startVal || !endVal) && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {startVal && endVal ? (
+                            `${format(startVal, "LLL dd, yyyy")} - ${format(endVal, "LLL dd, yyyy")}`
+                          ) : (
+                            <span>Pick a date range</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="range"
+                          defaultMonth={startVal}
+                          selected={{
+                            from: startVal,
+                            to: endVal,
+                          }}
+                          onSelect={(range) => {
+                            form.setValue("dateRangeStart", range?.from ? format(range.from, "yyyy-MM-dd") : "");
+                            form.setValue("dateRangeEnd", range?.to ? format(range.to, "yyyy-MM-dd") : "");
+                          }}
+                          numberOfMonths={2}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  );
+                }}
               />
             </div>
 
             {/* dateTimeRange */}
-            <div className="grid grid-cols-2 gap-2">
+            <div className="col-span-1 md:col-span-2 space-y-2">
+              <Label className="text-sm font-medium">Date-Time Range (Start & End)</Label>
               <FormController
                 form={form}
                 name="dateTimeRangeStart"
-                label="Start Date-Time"
-                render={({ field }) => (
-                  <Input
-                    type="datetime-local"
-                    value={field.value as string}
-                    onChange={(e) => field.onChange(e.target.value)}
-                  />
-                )}
-              />
-              <FormController
-                form={form}
-                name="dateTimeRangeEnd"
-                label="End Date-Time"
-                render={({ field }) => (
-                  <Input
-                    type="datetime-local"
-                    value={field.value as string}
-                    onChange={(e) => field.onChange(e.target.value)}
-                  />
-                )}
+                label=""
+                render={({ field: _ }) => {
+                  const startStr = form.watch("dateTimeRangeStart");
+                  const endStr = form.watch("dateTimeRangeEnd");
+                  const startVal = startStr ? new Date(startStr) : undefined;
+                  const endVal = endStr ? new Date(endStr) : undefined;
+
+                  const startTimeVal = startStr ? format(new Date(startStr), "HH:mm") : "00:00";
+                  const endTimeVal = endStr ? format(new Date(endStr), "HH:mm") : "00:00";
+
+                  return (
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "w-full justify-start text-left font-normal h-9",
+                            (!startVal || !endVal) && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {startVal && endVal ? (
+                            `${format(startVal, "LLL dd, yyyy HH:mm")} - ${format(endVal, "LLL dd, yyyy HH:mm")}`
+                          ) : (
+                            <span>Pick a date-time range</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-4 flex flex-col gap-3" align="start">
+                        <Calendar
+                          mode="range"
+                          defaultMonth={startVal}
+                          selected={{
+                            from: startVal,
+                            to: endVal,
+                          }}
+                          onSelect={(range) => {
+                            if (range?.from) {
+                              const [h, m] = startTimeVal.split(":");
+                              range.from.setHours(Number(h), Number(m), 0, 0);
+                              form.setValue("dateTimeRangeStart", range.from.toISOString());
+                            } else {
+                              form.setValue("dateTimeRangeStart", "");
+                            }
+
+                            if (range?.to) {
+                              const [h, m] = endTimeVal.split(":");
+                              range.to.setHours(Number(h), Number(m), 0, 0);
+                              form.setValue("dateTimeRangeEnd", range.to.toISOString());
+                            } else {
+                              form.setValue("dateTimeRangeEnd", "");
+                            }
+                          }}
+                          numberOfMonths={2}
+                        />
+                        <div className="flex items-center gap-4 justify-between border-t pt-3">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-semibold text-muted-foreground">Start:</span>
+                            <Input
+                              type="time"
+                              value={startTimeVal}
+                              className="h-8 w-24 text-xs"
+                              onChange={(e) => {
+                                const newTime = e.target.value || "00:00";
+                                const baseDate = startVal || new Date();
+                                const [h, m] = newTime.split(":");
+                                baseDate.setHours(Number(h), Number(m), 0, 0);
+                                form.setValue("dateTimeRangeStart", baseDate.toISOString());
+                              }}
+                            />
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-semibold text-muted-foreground">End:</span>
+                            <Input
+                              type="time"
+                              value={endTimeVal}
+                              className="h-8 w-24 text-xs"
+                              onChange={(e) => {
+                                const newTime = e.target.value || "00:00";
+                                const baseDate = endVal || new Date();
+                                const [h, m] = newTime.split(":");
+                                baseDate.setHours(Number(h), Number(m), 0, 0);
+                                form.setValue("dateTimeRangeEnd", baseDate.toISOString());
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  );
+                }}
               />
             </div>
           </div>

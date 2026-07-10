@@ -18,6 +18,8 @@ export const getAllZodSchema = z.object({
     .transform((val) => (val === "" || val === undefined ? "createdAt" : val))
     .default("createdAt"),
   search: z.string().optional(),
+  enumString: z.enum(["Active", "Inactive", "Block", "Pending"]).optional(),
+  booleanSwitch: z.enum(["true", "false"]).optional(),
 });
 
 const copyMeRoute = createRoute({

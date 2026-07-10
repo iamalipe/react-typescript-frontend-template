@@ -67,6 +67,8 @@ export type ApiCopyMeGetAllParams = {
   orderBy?: string;
   order?: "asc" | "desc";
   search?: string;
+  enumString?: "Active" | "Inactive" | "Block" | "Pending";
+  booleanSwitch?: "true" | "false";
 };
 
 // Helper function to build FormData from complex copy-me values

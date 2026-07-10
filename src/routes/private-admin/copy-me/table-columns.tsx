@@ -1,20 +1,20 @@
-import type { CopyMeType } from "@/api/copy-me-api";
-import type { DataTableColumn } from "@/hooks/useDataTable";
-import { formatDate } from "@/lib/date-time";
-import { TableAction, TableRowsSelect } from "./table-action";
-import { Badge } from "@/components/ui/badge";
+import type { CopyMeType } from "@/api/copy-me-api"
+import { Badge } from "@/components/ui/badge"
+import type { DataTableColumn } from "@/hooks/useDataTable"
+import { formatDate } from "@/lib/date-time"
+import { TableAction } from "./table-action"
 
 const tableColumns: DataTableColumn<CopyMeType>[] = [
-  {
-    key: "select",
-    label: "Select",
-    labelRender: () => <TableRowsSelect type="header" />,
-    isSortable: false,
-    isHidable: false,
-    render: (record) => <TableRowsSelect type="row" data={record} />,
-    classNameHeader: "w-10",
-    classNameRow: "w-10",
-  },
+  // {
+  //   key: "select",
+  //   label: "Select",
+  //   labelRender: () => <TableRowsSelect type="header" />,
+  //   isSortable: false,
+  //   isHidable: false,
+  //   render: (record) => <TableRowsSelect type="row" data={record} />,
+  //   classNameHeader: "w-10",
+  //   classNameRow: "w-10",
+  // },
   {
     label: "Required String",
     key: "stringRequired",
@@ -64,6 +64,6 @@ const tableColumns: DataTableColumn<CopyMeType>[] = [
     classNameHeader: "w-10",
     classNameRow: "w-10",
   },
-];
+]
 
-export default tableColumns;
+export default tableColumns
