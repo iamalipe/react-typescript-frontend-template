@@ -1,6 +1,6 @@
 import AdminAppSidebarMenuItem, {
   type AdminAppSidebarMenuItemProps,
-} from "@/components/admin-app-sidebar/admin-app-sidebar-menu-item";
+} from "@/components/admin-app-sidebar/admin-app-sidebar-menu-item"
 import {
   Sidebar,
   SidebarContent,
@@ -8,9 +8,9 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
-} from "@/components/ui/sidebar";
-import { ChartAreaIcon, Home, MessageSquare, Package, SquareKanban } from "lucide-react";
-import { NavUser } from "./nav-user";
+} from "@/components/ui/sidebar"
+import { Home, Package } from "lucide-react"
+import { NavUser } from "./nav-user"
 
 const pageMenus: AdminAppSidebarMenuItemProps[] = [
   {
@@ -23,25 +23,10 @@ const pageMenus: AdminAppSidebarMenuItemProps[] = [
     url: "/admin/product",
     icon: <Package />,
   },
-  {
-    title: "Kanban",
-    url: "/admin/kanban",
-    icon: <SquareKanban />,
-  },
-  {
-    title: "AI Chat",
-    url: "/admin/ai-chat",
-    icon: <ChartAreaIcon />,
-  },
-  {
-    title: "React AI Chat",
-    url: "/admin/chat-react",
-    icon: <MessageSquare />,
-  },
-];
+]
 
 export function AdminAppSidebar() {
-  const items = [...pageMenus];
+  const items = [...pageMenus]
 
   return (
     <Sidebar
@@ -65,5 +50,5 @@ export function AdminAppSidebar() {
         <NavUser />
       </SidebarFooter>
     </Sidebar>
-  );
+  )
 }
